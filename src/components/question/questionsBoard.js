@@ -1,9 +1,4 @@
-import {
-  chooseQuestion,
-  openModal,
-  startGame,
-  submit,
-} from "@/redux/slices/question";
+import { chooseQuestion, openModal, startGame } from "redux/slices/question";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { useDispatch } from "react-redux";

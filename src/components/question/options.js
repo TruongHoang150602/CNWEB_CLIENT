@@ -6,7 +6,7 @@ import {
   chooseMutilOption,
   chooseOption,
   submitQuestion,
-} from "@/redux/slices/question";
+} from "redux/slices/question";
 
 export default function Options(props) {
   const { options, answer, explanation, showAnswer, question_type, type } =

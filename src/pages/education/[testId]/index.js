@@ -26,20 +26,20 @@ import {
   selectType,
   selectUserAnswer,
   startGame,
-} from "@/redux/slices/question";
-import ConfirmSubmitModal from "@/components/question/confirmSubmitModal";
-import DrawerRanking from "@/components/question/drawerRanking";
+} from "redux/slices/question";
+import ConfirmSubmitModal from "components/question/confirmSubmitModal";
+import DrawerRanking from "components/question/drawerRanking";
 import {
   closeDrawer,
   getUsersAPI,
   openDrawer,
   selectIsOpenDrawer,
   selectUserList,
-} from "../../../redux/slices/user";
-import Quizz from "@/components/question/quizz";
-import QuestionsBoard from "@/components/question/questionsBoard";
-import Review from "@/components/question/review";
-import Result from "@/components/question/result";
+} from "redux/slices/user";
+import Quizz from "components/question/quizz";
+import QuestionsBoard from "components/question/questionsBoard";
+import Review from "components/question/review";
+import Result from "components/question/result";
 import { useRouter } from "next/router";
 
 const defaultTheme = createTheme();

@@ -1,10 +1,10 @@
-import SVGIcon from "@/components/SVGIcon";
+import SVGIcon from "components/SVGIcon";
 import {
   getAllTestAPI,
   selectError,
   selectIsLoading,
   selectTestList,
-} from "@/redux/slices/test";
+} from "redux/slices/test";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import { useEffect } from "react";

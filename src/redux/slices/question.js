@@ -4,7 +4,7 @@ import {
   chooseOptionFuntion,
   resetUserAnswer,
   submitUserAnswer,
-} from "@/helpper/question";
+} from "utils/question";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 

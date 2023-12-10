@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import SVGIcon from "../SVGIcon";
 import { useDispatch } from "react-redux";
-import { submitQuestion } from "@/redux/slices/question";
+import { submitQuestion } from "redux/slices/question";
 import { useState } from "react";
 
 export default function EnterAnswer(props) {
