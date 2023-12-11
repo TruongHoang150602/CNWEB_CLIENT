@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Box, Container, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Logo } from "components/logo";
-// import { paths } from '../../paths';
 
 const TOP_NAV_HEIGHT = 64;
 
@@ -66,7 +65,7 @@ export const Layout = (props) => {
                   },
                 }}
               >
-                Devias Kit <span>PRO</span>
+                Quizzify<span>ME</span>
               </Box>
             </Stack>
           </Stack>

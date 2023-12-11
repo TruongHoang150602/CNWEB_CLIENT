@@ -5,12 +5,12 @@ import NextLink from "next/link";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import {
-  Alert,
   Box,
   Button,
   Card,
   CardContent,
   CardHeader,
+  Checkbox,
   Divider,
   FormHelperText,
   Link,
@@ -18,12 +18,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+
 import { Layout as AuthLayout } from "layouts/auth";
 import { useAuth } from "hook/useAuth";
 
 const initialValues = {
-  email: "truonghoang150602@gmail.com",
-  password: "123456",
+  email: "",
+  password: "",
+  policy: true,
   submit: null,
 };
 
@@ -32,23 +34,23 @@ const validationSchema = Yup.object({
     .email("Must be a valid email")
     .max(255)
     .required("Email is required"),
-  password: Yup.string().max(255).required("Password is required"),
+  password: Yup.string().min(7).max(255).required("Password is required"),
+  policy: Yup.boolean().oneOf([true], "This field must be checked"),
 });
 
 const Page = () => {
   const router = useRouter();
-  const { signInWithEmailAndPassword, signInWithGoogle } = useAuth();
+  const { createUserWithEmailAndPassword, signInWithGoogle } = useAuth();
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values, helpers) => {
       try {
-        console.log(values);
-        await signInWithEmailAndPassword(values.email, values.password);
+        await createUserWithEmailAndPassword(values.email, values.password);
+
         router.push("/");
       } catch (err) {
         console.error(err);
-
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);
@@ -59,38 +61,36 @@ const Page = () => {
   const handleGoogleClick = useCallback(async () => {
     try {
       await signInWithGoogle();
-      console.log(user);
+
       router.push("/");
     } catch (err) {
       console.error(err);
     }
-  }, []);
-
-  // usePageView();
+  }, [router, signInWithGoogle]);
 
   return (
     <>
       <Head>
-        <title>Login | QuizzifyME</title>
+        <title>Register | Devias Kit PRO</title>
       </Head>
       <div>
         <Card elevation={16}>
           <CardHeader
             subheader={
               <Typography color="text.secondary" variant="body2">
-                Don&apos;t have an account? &nbsp;
+                Already have an account? &nbsp;
                 <Link
                   component={NextLink}
-                  href="/auth/register"
+                  href="/auth/login"
                   underline="hover"
                   variant="subtitle2"
                 >
-                  Register
+                  Log in
                 </Link>
               </Typography>
             }
             sx={{ pb: 0 }}
-            title="Log in"
+            title="Register"
           />
           <CardContent>
             <form noValidate onSubmit={formik.handleSubmit}>
@@ -168,6 +168,29 @@ const Page = () => {
                   value={formik.values.password}
                 />
               </Stack>
+              <Box
+                sx={{
+                  alignItems: "center",
+                  display: "flex",
+                  ml: -1,
+                  mt: 1,
+                }}
+              >
+                <Checkbox
+                  checked={formik.values.policy}
+                  name="policy"
+                  onChange={formik.handleChange}
+                />
+                <Typography color="text.secondary" variant="body2">
+                  I have read the{" "}
+                  <Link component="a" href="#">
+                    Terms and Conditions
+                  </Link>
+                </Typography>
+              </Box>
+              {!!(formik.touched.policy && formik.errors.policy) && (
+                <FormHelperText error>{formik.errors.policy}</FormHelperText>
+              )}
               {formik.errors.submit && (
                 <FormHelperText error sx={{ mt: 3 }}>
                   {formik.errors.submit}
@@ -181,32 +204,20 @@ const Page = () => {
                   type="submit"
                   variant="contained"
                 >
-                  Log In
+                  Register
                 </Button>
               </Box>
             </form>
           </CardContent>
         </Card>
-        <Stack spacing={3} sx={{ mt: 3 }}>
-          <Alert severity="error">
-            <div>
-              You can use <b>truonghoang150602@gmail.com</b> and password{" "}
-              <b>123456</b>
-            </div>
-          </Alert>
-          {/* <AuthIssuer issuer={issuer} /> */}
-        </Stack>
+        {/* <Box sx={{ mt: 3 }}>
+          <AuthIssuer issuer={issuer} />
+        </Box> */}
       </div>
     </>
   );
 };
 
-Page.getLayout = (page) => (
-  // <IssuerGuard issuer={Issuer.Firebase}>
-  //   <GuestGuard>
-  <AuthLayout>{page}</AuthLayout>
-  //   </GuestGuard>
-  // </IssuerGuard>
-);
+Page.getLayout = (page) => <AuthLayout>{page}</AuthLayout>;
 
 export default Page;
