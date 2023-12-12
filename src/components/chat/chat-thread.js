@@ -6,7 +6,7 @@ import { Scrollbar } from "components/scrollbar";
 import { ChatMessageAdd } from "./chat-message-add";
 import { ChatMessages } from "./chat-messages";
 import { ChatThreadToolbar } from "./chat-thread-toolbar";
-import useAuth from "hook/useAuth";
+import { useAuth } from "hook/useAuth";
 import { subDays, subHours, subMinutes } from "date-fns";
 
 const now = new Date();
@@ -120,7 +120,7 @@ const useMessagesScroll = (thread) => {
 export const ChatThread = (props) => {
   const { threadKey, ...other } = props;
 
-  const user = useAuth();
+  const { user } = useAuth();
   const thread = threadTest;
   const participants = participantsTest;
   const { messagesRef } = useMessagesScroll(thread);

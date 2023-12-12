@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { CircularProgress, Container, Typography } from "@mui/material";
 import { useAuth } from "hook/useAuth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -16,8 +16,17 @@ export default function Page() {
   }, [user, router]);
 
   if (!user) {
-    // Return some loading state or redirecting message
-    return <Typography>Loading...</Typography>;
+    return (
+      <Container
+        disableGutters
+        maxWidth="md"
+        component="main"
+        align="center"
+        sx={{ pt: 8, pb: 6 }}
+      >
+        <CircularProgress />
+      </Container>
+    );
   }
 
   return <Typography>Home page</Typography>;

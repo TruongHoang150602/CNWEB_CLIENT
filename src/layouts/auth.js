@@ -10,7 +10,7 @@ const LayoutRoot = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "top center",
-  backgroundImage: 'url("/background/gradient-bg.svg")',
+  backgroundImage: 'url("/background/subtle-prism.svg")',
   display: "flex",
   flex: "1 1 auto",
   flexDirection: "column",

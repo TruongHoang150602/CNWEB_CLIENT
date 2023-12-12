@@ -1,44 +1,12 @@
 // slices/questionSlice.js
+import { createSlice } from "@reduxjs/toolkit";
+import { getUserResultAPI } from "thunk/question";
 import {
   checkSufficientQuestions,
   chooseOptionFuntion,
   resetUserAnswer,
   submitUserAnswer,
 } from "utils/question";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-export const getUserResultAPI = createAsyncThunk(
-  "question/getQuestions",
-  async (payload) => {
-    try {
-      const { testId, type } = payload;
-      console.log(testId, type);
-      const response = await axios.get(
-        `http://localhost:3001/userResults/65641bc12971970f5e1918cc/${testId}/${type}`
-      );
-      const data = response.data;
-      console.log(data);
-      if (!data) createNewUserResultAPI(testId, type);
-      return data;
-    } catch (error) {
-      throw new Error("Failed to fetch question data from API");
-    }
-  }
-);
-
-export const createNewUserResultAPI = async (testId, type) => {
-  try {
-    console.log(testId, type);
-    const response = await axios.post(
-      `http://localhost:3001/userResults/65641bc12971970f5e1918cc/${testId}/${type}`
-    );
-    const data = response.data;
-    return data;
-  } catch (error) {
-    throw new Error("Failed to fetch question data from API");
-  }
-};
 
 const questionSlice = createSlice({
   name: "question",
@@ -170,21 +138,6 @@ const questionSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       });
-    // .addCase(createNewUserResultAPI.pending, (state) => {
-    //   state.isLoading = true;
-    //   state.error = null;
-    // })
-    // .addCase(createNewUserResultAPI.fulfilled, (state, action) => {
-    //   state.isLoading = false;
-    //   const userResult = action.payload;
-    //   state.userAnswer = userResult.answers;
-    //   state.numberQuestion = state.userAnswer.length;
-    //   state.isSubmitted = userResult.isSubmitted;
-    // })
-    // .addCase(createNewUserResultAPI.pending, (state) => {
-    //   state.isLoading = true;
-    //   state.error = null;
-    // });
   },
 });
 

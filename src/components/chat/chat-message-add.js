@@ -12,11 +12,11 @@ import {
   SvgIcon,
   Tooltip,
 } from "@mui/material";
-import useAuth from "hook/useAuth";
+import { useAuth } from "hook/useAuth";
 
 export const ChatMessageAdd = (props) => {
   const { disabled, onSend, ...other } = props;
-  const user = useAuth();
+  const { user } = useAuth();
   const fileInputRef = useRef(null);
   const [body, setBody] = useState("");
 

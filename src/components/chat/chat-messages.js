@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Stack } from "@mui/material";
 import { ChatMessage } from "./chat-message";
-import useAuth from "hook/useAuth";
+import { useAuth } from "hook/useAuth";
 
 const getAuthor = (message, participants, user) => {
   const participant = participants.find(
@@ -36,7 +36,7 @@ const getAuthor = (message, participants, user) => {
 
 export const ChatMessages = (props) => {
   const { messages, participants, ...other } = props;
-  const user = useAuth();
+  const { user } = useAuth();
 
   return (
     <Stack spacing={2} sx={{ p: 3 }} {...other}>

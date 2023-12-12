@@ -21,7 +21,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import useAuth from "hook/useAuth";
+import { useAuth } from "hook/useAuth";
 
 const getRecipients = (participants, userId) => {
   return participants.filter((participant) => participant.id !== userId);
@@ -45,7 +45,7 @@ const getLastActive = (recipients) => {
 
 export const ChatThreadToolbar = (props) => {
   const { participants = [], ...other } = props;
-  const user = useAuth();
+  const { user } = useAuth();
   const moreRef = useRef(null);
   const [openMenu, setOpenMenu] = useState(false);
 
