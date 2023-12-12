@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { Layout as AuthLayout } from "layouts/auth";
 import { useAuth } from "hook/useAuth";
+import { getParticipantInChat } from "api/chat";
 
 const initialValues = {
   email: "truonghoang150602@gmail.com",
@@ -201,12 +202,6 @@ const Page = () => {
   );
 };
 
-Page.getLayout = (page) => (
-  // <IssuerGuard issuer={Issuer.Firebase}>
-  //   <GuestGuard>
-  <AuthLayout>{page}</AuthLayout>
-  //   </GuestGuard>
-  // </IssuerGuard>
-);
+Page.getLayout = (page) => <AuthLayout>{page}</AuthLayout>;
 
 export default Page;

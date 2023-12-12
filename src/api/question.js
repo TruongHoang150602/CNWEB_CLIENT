@@ -2,7 +2,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GET, POST, PUT } from "utils/url";
 
-export const getUserResult = async (userId, testId, type) => {
+export const getUserResultAPI = async (userId, testId, type) => {
   try {
     const response = await GET({
       url: `/userResults/${userId}/${testId}/${type}`,
@@ -13,7 +13,7 @@ export const getUserResult = async (userId, testId, type) => {
   }
 };
 
-export const createNewUserResult = async (userId, testId, type) => {
+export const createNewUserResultAPI = async (userId, testId, type) => {
   try {
     const response = await POST({
       url: `/userResults/${userId}/${testId}/${type}`,
@@ -24,7 +24,7 @@ export const createNewUserResult = async (userId, testId, type) => {
   }
 };
 
-export const updateUserResult = async (
+export const updateUserResultAPI = async (
   userResultId,
   answers,
   isSubmitted,

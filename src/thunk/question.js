@@ -1,13 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createNewUserResultAPI, getUserResultAPI } from "api/question";
 
-export const getUserResultAPI = createAsyncThunk(
+export const getUserResult = createAsyncThunk(
   "userResult/getUserResult",
   async ({ userId, testId, type }, { rejectWithValue }) => {
     try {
-      const response = await getUserResult(userId, testId, type);
+      const response = await getUserResultAPI(userId, testId, type);
 
       if (!response) {
-        const newResponse = await createNewUserResult(userId, testId, type);
+        const newResponse = await createNewUserResultAPI(userId, testId, type);
         return newResponse;
       }
 
@@ -19,11 +20,11 @@ export const getUserResultAPI = createAsyncThunk(
   }
 );
 
-export const createNewUserResultAPI = createAsyncThunk(
+export const createNewUserResult = createAsyncThunk(
   "userResult/createUserResult",
   async ({ userId, testId, type }, { rejectWithValue }) => {
     try {
-      const response = await createNewUserResult(userId, testId, type);
+      const response = await createNewUserResultAPI(userId, testId, type);
       return response;
     } catch (error) {
       if (error instanceof Error) return rejectWithValue(error.message);

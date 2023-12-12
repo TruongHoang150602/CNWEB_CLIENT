@@ -34,7 +34,7 @@ const validationSchema = Yup.object({
     .email("Must be a valid email")
     .max(255)
     .required("Email is required"),
-  password: Yup.string().min(7).max(255).required("Password is required"),
+  password: Yup.string().required("Password is required"),
   policy: Yup.boolean().oneOf([true], "This field must be checked"),
 });
 

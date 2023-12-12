@@ -2,50 +2,29 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import { useSearchParams } from "next/navigation";
 import Menu01Icon from "@untitled-ui/icons-react/build/esm/Menu01";
-import { Box, Divider, IconButton, SvgIcon, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  IconButton,
+  SvgIcon,
+  Typography,
+  getCardActionsUtilityClass,
+} from "@mui/material";
 import { ChatBlank } from "components/chat/chat-blank";
 import { ChatContainer } from "components/chat/chat-container";
 import { ChatComposer } from "components/chat/chat-composer";
 import { ChatThread } from "components/chat/chat-thread";
-
-/**
- * NOTE:
- * In our case there two possible routes
- * one that contains /chat and one with a chat?threadKey={{threadKey}}
- * if threadKey does not exist, it means that the chat is in compose mode
- */
-
-const useParams = () => {
-  const searchParams = useSearchParams();
-  const compose = searchParams.get("compose") === "true";
-  const threadKey = searchParams.get("threadKey") || undefined;
-
-  return {
-    compose,
-    threadKey,
-  };
-};
-
-const useThreads = () => {
-  const dispatch = useDispatch();
-
-  const getThreads = useCallback(() => {
-    dispatch(thunks.getThreads());
-  }, [dispatch]);
-
-  useEffect(
-    () => {
-      getThreads();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-};
+import { getChatById } from "thunk/chat";
+import { useDispatch } from "react-redux";
 
 const Page = () => {
   const rootRef = useRef(null);
-
   const view = "blank";
+  const dispatch = useDispatch();
+  const chatId = "salMwoMV5oX2bZY5348h";
+  useEffect(() => {
+    dispatch(getChatById({ chatId }));
+  }, [dispatch]);
 
   return (
     <>
