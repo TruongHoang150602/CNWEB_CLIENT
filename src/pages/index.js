@@ -15,21 +15,16 @@ export default function Page() {
     }
   }, [user, router]);
 
-  if (!user) {
-    return (
-      <Container
-        disableGutters
-        maxWidth="md"
-        component="main"
-        align="center"
-        sx={{ pt: 8, pb: 6 }}
-      >
-        <CircularProgress />
-      </Container>
-    );
-  }
-
   console.log(user);
-
-  return <Typography>Home page</Typography>;
+  return (
+    <Container
+      disableGutters
+      maxWidth="md"
+      component="main"
+      align="center"
+      sx={{ pt: 8, pb: 6 }}
+    >
+      <CircularProgress />
+    </Container>
+  );
 }

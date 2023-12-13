@@ -49,17 +49,17 @@ export const ChatThreadToolbar = (props) => {
   const moreRef = useRef(null);
   const [openMenu, setOpenMenu] = useState(false);
 
-  const handleMenuOpen = useCallback(() => {
+  const handleMenuOpen = () => {
     setOpenMenu(true);
-  }, []);
+  };
 
-  const handleMenuClose = useCallback(() => {
+  const handleMenuClose = () => {
     setOpenMenu(false);
-  }, []);
+  };
 
   // Maybe use memo for these values
 
-  const recipients = getRecipients(participants, "5e867f0a5bc0ff2bfa07bfa6");
+  const recipients = getRecipients(participants, user.id);
   const displayName = getDisplayName(recipients);
   const lastActive = getLastActive(recipients);
 

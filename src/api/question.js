@@ -1,5 +1,4 @@
-// userResultAPI.ts
-import { createAsyncThunk } from "@reduxjs/toolkit";
+// userResultAPI.js
 import { GET, POST, PUT } from "utils/url";
 
 export const getUserResultAPI = async (userId, testId, type) => {

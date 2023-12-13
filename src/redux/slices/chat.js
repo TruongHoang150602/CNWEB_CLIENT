@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllChatsForUser, getChatById } from "thunk/chat";
+import { getAllChatsForUser, getChatById, getParticipants } from "thunk/chat";
 
 const chatSlice = createSlice({
   name: "chat",
@@ -53,7 +53,7 @@ const chatSlice = createSlice({
       .addCase(getChatById.fulfilled, (state, action) => {
         state.isLoading = false;
         const { chat, participants } = action.payload;
-        console.log(chat);
+        console.log(chat, participants);
         state.chatId = chat.id;
         state.messages = chat.messages;
         state.type = chat.type;
@@ -67,5 +67,14 @@ const chatSlice = createSlice({
 });
 
 export const { openModal, closeModal } = chatSlice.actions;
+
+export const selectChatList = (state) => state.chat.chatList;
+export const selectMessages = (state) => state.chat.messages;
+export const selectChatId = (state) => state.chat.chatId;
+export const selectType = (state) => state.chat.type;
+export const selectParticipants = (state) => state.chat.participants;
+export const selectIsLoading = (state) => state.chat.isLoading;
+export const selectError = (state) => state.chat.error;
+export const selectIsOpenModal = (state) => state.chat.isOpenModal;
 
 export default chatSlice.reducer;

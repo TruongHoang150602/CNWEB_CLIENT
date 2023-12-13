@@ -10,8 +10,9 @@ const { db } = require("firebaseConfig/firebase");
 
 export const getAllChatsForUserAPI = async (userId) => {
   try {
+    const chatsRef = collection(db, "chats");
     const q = query(
-      collection(db, "chats"),
+      chatsRef,
       where("participantIds", "array-contains", userId)
     );
 
@@ -31,6 +32,7 @@ export const getAllChatsForUserAPI = async (userId) => {
 
 export const getChatByIdAPI = async (chatId) => {
   try {
+    console.log(chatId);
     const chatDocRef = doc(db, "chats", chatId);
 
     const chatDocSnapshot = await getDoc(chatDocRef);

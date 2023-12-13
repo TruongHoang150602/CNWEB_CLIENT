@@ -8,9 +8,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useAuth } from "hook/useAuth";
 
-const getLastMessage = (thread) => {
-  return thread.messages?.[thread.messages.length - 1];
+const getLastMessage = (messages) => {
+  return messages?.[messages.length - 1];
 };
 
 const getRecipients = (participants, userId) => {
@@ -45,16 +46,17 @@ const getLastActivity = (lastMessage) => {
 };
 
 export const ChatThreadItem = (props) => {
-  const { active, thread, onSelect, ...other } = props;
-  const user = useMockedUser();
+  const { active, messages, participants, unreadCount, onSelect, ...other } =
+    props;
+  const { user } = useAuth();
 
-  const recipients = getRecipients(thread.participants || [], user.id);
-  const lastMessage = getLastMessage(thread);
+  const recipients = getRecipients(participants || [], user.id);
+  const lastMessage = getLastMessage(messages);
   const lastActivity = getLastActivity(lastMessage);
   const displayName = getDisplayName(recipients);
   const displayContent = getDisplayContent(user.id, lastMessage);
   const groupThread = recipients.length > 1;
-  const isUnread = !!(thread.unreadCount && thread.unreadCount > 0);
+  const isUnread = !!(unreadCount && unreadCount > 0);
 
   return (
     <Stack

@@ -5,8 +5,6 @@ export const ENDPOINT =
   process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 export const sendRequest = (method, data) => {
-  console.log(ENDPOINT);
-
   return new Promise((resolve, reject) => {
     Axios({
       baseURL: data.baseURL ?? ENDPOINT,

@@ -1,6 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
@@ -22,11 +30,50 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app =
+export const app =
   getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const db = getFirestore(app);
-const auth = getAuth(app);
-const storage = getStorage(app);
+export const db = getFirestore(app);
+export const auth = getAuth(app);
+export const storage = getStorage(app);
 // const analytics = getAnalytics(app);
 
-export { app, db, auth, storage };
+export const getAllChatsForUserAPI = async (userId) => {
+  try {
+    const chatsRef = collection(db, "chats");
+    const q = query(
+      chatsRef,
+      where("participantIds", "array-contains", userId)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    const userChats = [];
+    querySnapshot.forEach((doc) => {
+      userChats.push(doc.data());
+    });
+
+    return userChats;
+  } catch (error) {
+    console.error("Error getting chats for user:", error);
+    throw error;
+  }
+};
+
+export const getChatByIdAPI = async (chatId) => {
+  try {
+    console.log(chatId);
+    const chatDocRef = doc(db, "chats", chatId);
+
+    const chatDocSnapshot = await getDoc(chatDocRef);
+
+    if (chatDocSnapshot.exists()) {
+      return chatDocSnapshot.data();
+    } else {
+      console.log(`Chat with ID ${chatId} does not exist.`);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error getting chat by ID:", error);
+    throw error;
+  }
+};
