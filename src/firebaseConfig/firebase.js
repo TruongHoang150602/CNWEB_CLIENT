@@ -1,18 +1,20 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps } from "firebase/app";
 import {
+  arrayUnion,
   collection,
   doc,
   getDoc,
   getDocs,
   getFirestore,
+  onSnapshot,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
-const now = new Date();
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -74,6 +76,48 @@ export const getChatByIdAPI = async (chatId) => {
     }
   } catch (error) {
     console.error("Error getting chat by ID:", error);
+    throw error;
+  }
+};
+
+export const sendMessageAPI = async (chatId, message) => {
+  try {
+    const chatDocRef = doc(db, "chats", chatId);
+
+    // Update the 'messages' array in the document with the new message
+    await updateDoc(chatDocRef, {
+      messages: arrayUnion(message),
+    });
+
+    console.log("Message sent successfully!");
+  } catch (error) {
+    console.error("Error sending message:", error);
+    throw error;
+  }
+};
+
+export const listenForNewMessages = (chatId, messageCallback) => {
+  try {
+    const messagesCollectionRef = collection(db, "chats", chatId, "messages");
+
+    // Sử dụng where để chỉ lắng nghe sự kiện khi có tin nhắn mới được thêm vào
+    const queryRef = query(messagesCollectionRef);
+
+    // Lắng nghe sự kiện sử dụng onSnapshot
+    const unsubscribe = onSnapshot(queryRef, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const messageData = change.doc.data();
+
+        if (change.type === "added") {
+          // Gọi hàm callback để xử lý tin nhắn mới
+          messageCallback(messageData);
+        }
+      });
+    });
+
+    return unsubscribe;
+  } catch (error) {
+    console.error("Error listening for new messages:", error);
     throw error;
   }
 };

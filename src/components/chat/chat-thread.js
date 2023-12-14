@@ -7,13 +7,15 @@ import { ChatMessageAdd } from "./chat-message-add";
 import { ChatMessages } from "./chat-messages";
 import { ChatThreadToolbar } from "./chat-thread-toolbar";
 import { useAuth } from "hook/useAuth";
+import { useDispatch } from "react-redux";
+import { sendMessageAPI } from "firebaseConfig/firebase";
 
-const useMessagesScroll = (thread) => {
+const useMessagesScroll = (messages) => {
   const messagesRef = useRef(null);
 
   const handleUpdate = useCallback(() => {
     // Thread does not exist
-    if (!thread) {
+    if (!messages) {
       return;
     }
 
@@ -25,14 +27,14 @@ const useMessagesScroll = (thread) => {
     const container = messagesRef.current;
     const scrollElement = container.getScrollElement();
     scrollElement.scrollTop = container.el.scrollHeight;
-  }, [thread]);
+  }, [messages]);
 
   useEffect(
     () => {
       handleUpdate();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [thread]
+    [messages]
   );
 
   return {
@@ -44,9 +46,23 @@ export const ChatThread = (props) => {
   const { chatId, messages, participants, ...other } = props;
 
   const { user } = useAuth();
-  const { messagesRef } = useMessagesScroll(thread);
+  const { messagesRef } = useMessagesScroll(messages);
+  const dispatch = useDispatch();
 
-  const handleSend = useCallback();
+  const handleSend = useCallback(
+    async (body) => {
+      const message = {
+        body: body,
+        attachments: [],
+        contentType: "text",
+        createdAt: new Date().getTime(),
+        authorId: user.id,
+      };
+      console.log(message);
+      sendMessageAPI(chatId, message);
+    },
+    [dispatch]
+  );
 
   // Maybe implement a loading state
 
@@ -80,5 +96,5 @@ export const ChatThread = (props) => {
 };
 
 ChatThread.propTypes = {
-  threadKey: PropTypes.string.isRequired,
+  chatId: PropTypes.string.isRequired,
 };

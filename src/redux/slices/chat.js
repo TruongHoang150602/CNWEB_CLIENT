@@ -23,6 +23,10 @@ const chatSlice = createSlice({
       state.error = action.payload;
     },
 
+    receiveMessages(state, action) {
+      state.messages.push(action.payload);
+    },
+
     openModal(state) {
       state.isOpenModal = true;
     },
@@ -53,7 +57,6 @@ const chatSlice = createSlice({
       .addCase(getChatById.fulfilled, (state, action) => {
         state.isLoading = false;
         const { chat, participants } = action.payload;
-        console.log(chat, participants);
         state.chatId = chat.id;
         state.messages = chat.messages;
         state.type = chat.type;
@@ -66,7 +69,7 @@ const chatSlice = createSlice({
   },
 });
 
-export const { openModal, closeModal } = chatSlice.actions;
+export const { openModal, closeModal, receiveMessages } = chatSlice.actions;
 
 export const selectChatList = (state) => state.chat.chatList;
 export const selectMessages = (state) => state.chat.messages;

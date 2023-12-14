@@ -32,10 +32,10 @@ const getDisplayName = (recipients) => {
 };
 
 const getLastActive = (recipients) => {
-  const hasLastActive = recipients.length === 1 && recipients[0].lastActivity;
+  const hasLastActive = recipients.length === 1 && recipients.lastActivity;
 
   if (hasLastActive) {
-    return formatDistanceToNowStrict(recipients[0].lastActivity, {
+    return formatDistanceToNowStrict(recipients.lastActivity, {
       addSuffix: true,
     });
   }
@@ -59,7 +59,7 @@ export const ChatThreadToolbar = (props) => {
 
   // Maybe use memo for these values
 
-  const recipients = getRecipients(participants, user.id);
+  const recipients = getRecipients(participants, user?.id || "1");
   const displayName = getDisplayName(recipients);
   const lastActive = getLastActive(recipients);
 

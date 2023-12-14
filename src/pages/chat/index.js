@@ -26,6 +26,7 @@ import {
   selectType,
 } from "redux/slices/chat";
 import { Container } from "@untitled-ui/icons-react";
+import { listenForNewMessages } from "firebaseConfig/firebase";
 
 const Page = () => {
   const rootRef = useRef(null);
@@ -42,8 +43,17 @@ const Page = () => {
   const open = useSelector(selectIsOpenModal);
 
   useEffect(() => {
-    dispatch(getChatById({ chatId: "salMwoMV5oX2bZY5348h" }));
+    dispatch(getChatById({ chatId: "pXGGnEugnN01X2imZcdk" }));
   }, [dispatch]);
+
+  const unsubscribe = listenForNewMessages(
+    "pXGGnEugnN01X2imZcdk",
+    (newMessage) => {
+      console.log("New message received:", newMessage);
+    }
+  );
+
+  unsubscribe();
 
   if (isLoading) {
     return (
@@ -58,8 +68,6 @@ const Page = () => {
       </Container>
     );
   }
-
-  console.log(messages);
 
   return (
     <>
@@ -99,7 +107,13 @@ const Page = () => {
               </IconButton>
             </Box>
             <Divider />
-            <ChatThread />
+            {messages && (
+              <ChatThread
+                chatId={chatId}
+                messages={messages}
+                participants={participants}
+              />
+            )}
           </ChatContainer>
         </Box>
       </Box>

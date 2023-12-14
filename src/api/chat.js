@@ -30,21 +30,41 @@ export const getAllChatsForUserAPI = async (userId) => {
   }
 };
 
-export const getChatByIdAPI = async (chatId) => {
+export const getChatByIdAPI = (chatId, callback) => {
   try {
     console.log(chatId);
     const chatDocRef = doc(db, "chats", chatId);
 
-    const chatDocSnapshot = await getDoc(chatDocRef);
+    const unsubscribe = onSnapshot(chatDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const chatData = docSnapshot.data();
+        callback(chatData);
+      } else {
+        console.log(`Chat with ID ${chatId} does not exist.`);
+        callback(null);
+      }
+    });
 
-    if (chatDocSnapshot.exists()) {
-      return chatDocSnapshot.data();
-    } else {
-      console.log(`Chat with ID ${chatId} does not exist.`);
-      return null;
-    }
+    // Return the unsubscribe function to stop listening for updates when needed
+    return unsubscribe;
   } catch (error) {
     console.error("Error getting chat by ID:", error);
+    throw error;
+  }
+};
+
+export const sendMessageAPI = async (chatId, message) => {
+  try {
+    const chatDocRef = doc(db, "chats", chatId);
+
+    // Update the 'messages' array in the document with the new message
+    await updateDoc(chatDocRef, {
+      messages: arrayUnion(message),
+    });
+
+    console.log("Message sent successfully!");
+  } catch (error) {
+    console.error("Error sending message:", error);
     throw error;
   }
 };

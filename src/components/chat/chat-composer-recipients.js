@@ -19,59 +19,6 @@ import {
 } from "@mui/material";
 import { Scrollbar } from "components/scrollbar";
 import { useCallback, useRef, useState } from "react";
-import { subDays, subHours, subMinutes } from "date-fns";
-
-const now = new Date();
-const messages = [
-  {
-    id: "5e867f0a5bc0ff2bfa07bfa6",
-    attachments: [],
-    body: "Hey, nice projects! I really liked the one in react. What's your quote on kinda similar project?",
-    contentType: "text",
-    createdAt: subDays(subHours(now, 10), 4).getTime(),
-    authorId: "5e86805e2bafd54f66cc95c3",
-  },
-  {
-    id: "5e867f167d5f78109ae9f2a4",
-    attachments: [],
-    body: "I would need to know more details, but my hourly rate stats at $35/hour. Thanks!",
-    contentType: "text",
-    createdAt: subDays(subHours(now, 2), 4).getTime(),
-    authorId: "5e86809283e28b96d2d38537",
-  },
-  {
-    id: "5e867f1c9ca72084693528f4",
-    attachments: [],
-    body: "Well it's a really easy one, I'm sure we can make it half of the price.",
-    contentType: "text",
-    createdAt: subHours(now, 5).getTime(),
-    authorId: "5e86805e2bafd54f66cc95c3",
-  },
-  {
-    id: "5e867f22fd2e27a09849b4db",
-    attachments: [],
-    body: "Then why don't you make it if it's that easy? Sorry I'm not interetes, have fantastic day Adam!",
-    contentType: "text",
-    createdAt: subHours(now, 3).getTime(),
-    authorId: "5e86809283e28b96d2d38537",
-  },
-  {
-    id: "5e867f28a34d45ac6eb5c41f",
-    attachments: [],
-    body: "Last offer, $25 per hour",
-    contentType: "text",
-    createdAt: subHours(now, 2).getTime(),
-    authorId: "5e86805e2bafd54f66cc95c3",
-  },
-  {
-    id: "5e867f2dba984a3f78b33526",
-    attachments: [],
-    body: "/assets/covers/minimal-1-4x3-small.png",
-    contentType: "image",
-    createdAt: subHours(now, 1).getTime(),
-    authorId: "5e86805e2bafd54f66cc95c3",
-  },
-];
 
 export const ChatComposerRecipients = (props) => {
   const {

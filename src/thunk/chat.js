@@ -20,9 +20,11 @@ export const getChatById = createAsyncThunk(
   async ({ chatId }, { rejectWithValue }) => {
     try {
       const response = await getChatByIdAPI(chatId);
-      const chat = response.chat;
-
-      console.log(chat);
+      console.log(response);
+      const chat = {
+        id: chatId,
+        ...response,
+      };
 
       // Use Promise.all to wait for all getUserByIdAPI calls to complete
       const participants = await Promise.all(
@@ -36,9 +38,6 @@ export const getChatById = createAsyncThunk(
           }
         })
       );
-
-      console.log(participants);
-
       return { chat, participants };
     } catch (error) {
       if (error instanceof Error) return rejectWithValue(error.message);

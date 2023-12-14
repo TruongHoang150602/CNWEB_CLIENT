@@ -54,7 +54,7 @@ export const ChatThreadItem = (props) => {
   const lastMessage = getLastMessage(messages);
   const lastActivity = getLastActivity(lastMessage);
   const displayName = getDisplayName(recipients);
-  const displayContent = getDisplayContent(user.id, lastMessage);
+  const displayContent = getDisplayContent(user.id || "1", lastMessage);
   const groupThread = recipients.length > 1;
   const isUnread = !!(unreadCount && unreadCount > 0);
 

@@ -9,6 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "firebaseConfig/firebase";
+import { getUserByIdAPI } from "api/user";
 
 var ActionType;
 (function (ActionType) {
@@ -49,19 +50,19 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleAuthStateChanged = useCallback(
-    (user) => {
+    async (user) => {
       if (user) {
-        // Here you should extract the complete user profile to make it available in your entire app.
-        // The auth state only provides basic information.
+        const detailUser = await getUserByIdAPI("1");
+
         dispatch({
           type: ActionType.AUTH_STATE_CHANGED,
           payload: {
             isAuthenticated: true,
             user: {
-              id: user.uid,
-              avatar: user.photoURL || undefined,
-              email: user.email || "truonghoang150602@gmail.com",
-              name: "Truong Hoang",
+              id: detailUser.id,
+              avatar: detailUser.avatar,
+              email: detailUser.email,
+              name: detailUser.name,
             },
           },
         });

@@ -33,7 +33,7 @@ export const ChatMessageAdd = (props) => {
       return;
     }
 
-    onSend?.(body);
+    onSend(body);
     setBody("");
   }, [body, onSend]);
 
@@ -64,7 +64,7 @@ export const ChatMessageAdd = (props) => {
             sm: "inline",
           },
         }}
-        src="https://lh3.googleusercontent.com/a/ACg8ocKvBtPswksA84XNlOmIIf_Ic_80DpgiwaWZjvMtZlX0=s96-c"
+        src={user?.avatar}
       />
       <OutlinedInput
         disabled={disabled}
