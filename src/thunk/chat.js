@@ -1,4 +1,3 @@
-import { create } from "@mui/material/styles/createTransitions";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getUserByIdAPI } from "api/user";
 import { getAllChatsForUserAPI, getChatByIdAPI } from "firebaseConfig/firebase";
@@ -41,24 +40,6 @@ export const getChatById = createAsyncThunk(
       console.log(participants);
 
       return { chat, participants };
-    } catch (error) {
-      if (error instanceof Error) return rejectWithValue(error.message);
-      return rejectWithValue("Unknown error");
-    }
-  }
-);
-
-export const getParticipants = createAsyncThunk(
-  "chat/getParticipants",
-  async ({ participantIds }, { rejectWithValue }) => {
-    try {
-      const participants = [];
-      for (userId in participantIds) {
-        const response = await getUserByIdAPI(userId);
-        participants.push(response);
-      }
-      console.log(participants);
-      return participants;
     } catch (error) {
       if (error instanceof Error) return rejectWithValue(error.message);
       return rejectWithValue("Unknown error");

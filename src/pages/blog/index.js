@@ -1,9 +1,8 @@
-import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import FeaturedPost from "../../components/blog/FeaturedPost";
+import FeaturedPost from "components/blog/FeaturedPost";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
@@ -11,9 +10,10 @@ import {
   getBlogsAPI,
   openModal,
   selectIsOpenModal,
-} from "../../src/redux/slices/blog";
-import EditBlogModal from "../../components/blog/EditBlogModal";
+} from "redux/slices/blog";
+import EditBlogModal from "components/blog/EditBlogModal";
 import { Button } from "@mui/material";
+import { Layout as DashboardLayout } from "layouts/dashboard";
 
 const featuredPosts = [
   {
@@ -37,7 +37,7 @@ const featuredPosts = [
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Blog() {
+const Page = () => {
   const dispatch = useDispatch();
   // const posts = useSelector(selectBlogList);
   const isOpenModal = useSelector(selectIsOpenModal);
@@ -74,4 +74,8 @@ export default function Blog() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+
+export default Page;

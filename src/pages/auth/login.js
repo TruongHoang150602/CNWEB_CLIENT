@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import Head from "next/head";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import NextLink from "next/link";
 import * as Yup from "yup";
 import { useFormik } from "formik";
