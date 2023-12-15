@@ -1,44 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getUserByIdAPI } from "api/user";
-import { getAllChatsForUserAPI, getChatByIdAPI } from "firebaseConfig/firebase";
+import { getAllChatsForUserAPI, getParticipantsAPI } from "pages/api/chat";
 
 export const getAllChatsForUser = createAsyncThunk(
   "chats/getAllChat",
   async ({ userId }, { rejectWithValue }) => {
     try {
-      const response = await getAllChatsForUserAPI(userId);
-      return response;
-    } catch (error) {
-      if (error instanceof Error) return rejectWithValue(error.message);
-      return rejectWithValue("Unknown error");
-    }
-  }
-);
-
-export const getChatById = createAsyncThunk(
-  "chat/getChat",
-  async ({ chatId }, { rejectWithValue }) => {
-    try {
-      const response = await getChatByIdAPI(chatId);
-      console.log(response);
-      const chat = {
-        id: chatId,
-        ...response,
-      };
-
-      // Use Promise.all to wait for all getUserByIdAPI calls to complete
-      const participants = await Promise.all(
-        chat.participantIds.map(async (userId) => {
-          try {
-            const userResponse = await getUserByIdAPI(userId);
-            return userResponse;
-          } catch (userError) {
-            console.error(`Error fetching user ${userId}:`, userError);
-            return null;
-          }
+      const chatList = await getAllChatsForUserAPI(userId);
+      const chatListWithParticipants = await Promise.all(
+        chatList.map(async (chat) => {
+          const participants = await getParticipantsAPI(chat.participantIds);
+          return {
+            ...chat,
+            participants,
+          };
         })
       );
-      return { chat, participants };
+
+      return chatListWithParticipants;
     } catch (error) {
       if (error instanceof Error) return rejectWithValue(error.message);
       return rejectWithValue("Unknown error");

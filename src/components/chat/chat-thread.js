@@ -8,8 +8,8 @@ import { ChatMessages } from "./chat-messages";
 import { ChatThreadToolbar } from "./chat-thread-toolbar";
 import { useAuth } from "hook/useAuth";
 import { useDispatch } from "react-redux";
-import { sendMessageAPI } from "firebaseConfig/firebase";
 import { receiveMessages } from "redux/slices/chat";
+import { sendMessageAPI } from "pages/api/chat";
 
 const useMessagesScroll = (messages) => {
   const messagesRef = useRef(null);
@@ -64,11 +64,7 @@ export const ChatThread = (props) => {
         createdAt: new Date().getTime(),
         authorId: user.id,
       };
-
-      console.log(message);
-
-      // Pass the callback function to handle the received messages
-      sendMessageAPI(chatId, message, callback);
+      if (chatId) sendMessageAPI(chatId, message, callback);
     },
     [dispatch, chatId, user.id]
   );

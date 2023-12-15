@@ -2,6 +2,7 @@ import { Provider } from "react-redux";
 import "styles/globals.css";
 import store from "redux/store";
 import { AuthProvider, AuthConsumer } from "context/AuthContext";
+import { ThemeProvider, createTheme } from "@mui/material";
 
 function MyApp({ Component, pageProps }) {
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -10,7 +11,13 @@ function MyApp({ Component, pageProps }) {
       <AuthProvider>
         <AuthConsumer>
           {(auth) => {
-            return getLayout(<Component {...pageProps} />);
+            const theme = createTheme();
+
+            return (
+              <ThemeProvider theme={theme}>
+                {getLayout(<Component {...pageProps} />)}
+              </ThemeProvider>
+            );
           }}
         </AuthConsumer>
       </AuthProvider>

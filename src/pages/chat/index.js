@@ -13,51 +13,43 @@ import { ChatBlank } from "components/chat/chat-blank";
 import { ChatContainer } from "components/chat/chat-container";
 import { ChatComposer } from "components/chat/chat-composer";
 import { ChatThread } from "components/chat/chat-thread";
-import { getChatById } from "thunk/chat";
+import { getAllChatsForUser, getChatById } from "thunk/chat";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectChatId,
+import chat, {
   selectChatList,
+  selectCurrentChat,
   selectError,
   selectIsLoading,
-  selectIsOpenModal,
-  selectMessages,
-  selectParticipants,
-  selectType,
+  selectIsOpenSideBar,
+  selectView,
 } from "redux/slices/chat";
 import { Container } from "@untitled-ui/icons-react";
-import { chatListeners } from "firebaseConfig/firebase";
+import { ChatSidebar } from "components/chat/chat-sidebar";
+import { useAuth } from "hook/useAuth";
+import { listenForChatUpdates } from "pages/api/chat";
 
-const unsubscribeRealtimeUpdates = (chatId) => {
-  const chatListener = chatListeners[chatId];
-  if (chatListener) {
-    chatListener(); // Invoke the listener to unsubscribe
-    delete chatListeners[chatId]; // Remove the listener from the object
-  }
+const unsubscribeRealtimeUpdates = () => {
+  listenForChatUpdates();
 };
 
 const Page = () => {
   const rootRef = useRef(null);
-  const view = "blank";
+  const { user } = useAuth();
   const dispatch = useDispatch();
 
   const chatList = useSelector(selectChatList);
-  const chatId = useSelector(selectChatId);
-  const messages = useSelector(selectMessages);
-  const type = useSelector(selectType);
-  const participants = useSelector(selectParticipants);
+  const currentChat = useSelector(selectCurrentChat);
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
-  const open = useSelector(selectIsOpenModal);
+  const isOpenSidebar = useSelector(selectIsOpenSideBar);
+  const view = useSelector(selectView);
 
   useEffect(() => {
-    dispatch(getChatById({ chatId: "pXGGnEugnN01X2imZcdk" }));
+    dispatch(getAllChatsForUser({ userId: user.id }));
     return () => {
-      unsubscribeRealtimeUpdates("pXGGnEugnN01X2imZcdk");
+      unsubscribeRealtimeUpdates();
     };
   }, [dispatch]);
-
-  console.log(messages);
 
   if (isLoading) {
     return (
@@ -102,6 +94,12 @@ const Page = () => {
             top: 0,
           }}
         >
+          <ChatSidebar
+            container={rootRef.current}
+            onClose={() => {}}
+            open={isOpenSidebar}
+            chatList={chatList}
+          />
           <ChatContainer open={true}>
             <Box sx={{ p: 2 }}>
               <IconButton>
@@ -111,11 +109,12 @@ const Page = () => {
               </IconButton>
             </Box>
             <Divider />
-            {messages && (
+            {view == "blank" && <ChatBlank />}
+            {view == "chat" && (
               <ChatThread
-                chatId={chatId}
-                messages={messages}
-                participants={participants}
+                chatId={currentChat.id}
+                messages={currentChat.messages}
+                participants={currentChat.participants}
               />
             )}
           </ChatContainer>

@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useAuth } from "hook/useAuth";
+import { customLocale } from "utils/date-locale";
 
 const getLastMessage = (messages) => {
   return messages?.[messages.length - 1];
@@ -41,7 +42,7 @@ const getLastActivity = (lastMessage) => {
 
   return formatDistanceStrict(lastMessage.createdAt, new Date(), {
     addSuffix: false,
-    locale: "",
+    locale: customLocale,
   });
 };
 
@@ -147,8 +148,6 @@ export const ChatThreadItem = (props) => {
 ChatThreadItem.propTypes = {
   active: PropTypes.bool,
   onSelect: PropTypes.func,
-  // @ts-ignore
-  thread: PropTypes.object.isRequired,
 };
 
 ChatThreadItem.defaultProps = {

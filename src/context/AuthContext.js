@@ -9,7 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "firebaseConfig/firebase";
-import { getUserByIdAPI } from "api/user";
+import { getUserByIdAPI } from "pages/api/user";
 
 var ActionType;
 (function (ActionType) {

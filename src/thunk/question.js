@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createNewUserResultAPI, getUserResultAPI } from "api/question";
+import { createNewUserResultAPI, getUserResultAPI } from "pages/api/question";
 
 export const getUserResult = createAsyncThunk(
   "userResult/getUserResult",

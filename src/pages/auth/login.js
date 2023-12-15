@@ -20,7 +20,6 @@ import {
 } from "@mui/material";
 import { Layout as AuthLayout } from "layouts/auth";
 import { useAuth } from "hook/useAuth";
-import { getParticipantInChat } from "api/chat";
 
 const initialValues = {
   email: "truonghoang150602@gmail.com",

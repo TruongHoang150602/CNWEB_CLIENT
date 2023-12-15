@@ -13,18 +13,17 @@ export const getUserByIdAPI = async (userId) => {
   }
 };
 
-// export const getUsersByIdAPI = async (userIds) => {
-//   try {
-//     const response = await GET({
-//       baseUrl: "https://653b1ca02e42fd0d54d4b3b0.mockapi.io",
-//       url: `/users`,
-//       params: userIds,
-//     });
-//     return response;
-//   } catch (error) {
-//     throw new Error("Failed to fetch test data from API");
-//   }
-// };
+export const getAllUsersAPI = async () => {
+  try {
+    const response = await GET({
+      baseURL: "https://653b1ca02e42fd0d54d4b3b0.mockapi.io",
+      url: `/users`,
+    });
+    return response;
+  } catch (error) {
+    throw new Error("Failed to fetch test data from API");
+  }
+};
 
 export const updateUserDataAPI = async (user) => {
   try {
