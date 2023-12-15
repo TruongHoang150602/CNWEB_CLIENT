@@ -9,6 +9,7 @@ import { ChatThreadToolbar } from "./chat-thread-toolbar";
 import { useAuth } from "hook/useAuth";
 import { useDispatch } from "react-redux";
 import { sendMessageAPI } from "firebaseConfig/firebase";
+import { receiveMessages } from "redux/slices/chat";
 
 const useMessagesScroll = (messages) => {
   const messagesRef = useRef(null);
@@ -49,6 +50,11 @@ export const ChatThread = (props) => {
   const { messagesRef } = useMessagesScroll(messages);
   const dispatch = useDispatch();
 
+  const callback = (messages) => {
+    // Assuming you want to dispatch the received messages
+    dispatch(receiveMessages(messages));
+  };
+
   const handleSend = useCallback(
     async (body) => {
       const message = {
@@ -58,10 +64,13 @@ export const ChatThread = (props) => {
         createdAt: new Date().getTime(),
         authorId: user.id,
       };
+
       console.log(message);
-      sendMessageAPI(chatId, message);
+
+      // Pass the callback function to handle the received messages
+      sendMessageAPI(chatId, message, callback);
     },
-    [dispatch]
+    [dispatch, chatId, user.id]
   );
 
   // Maybe implement a loading state

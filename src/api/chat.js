@@ -30,39 +30,43 @@ export const getAllChatsForUserAPI = async (userId) => {
   }
 };
 
-export const getChatByIdAPI = (chatId, callback) => {
+export const getChatByIdAPI = async (chatId) => {
   try {
     console.log(chatId);
     const chatDocRef = doc(db, "chats", chatId);
 
-    const unsubscribe = onSnapshot(chatDocRef, (docSnapshot) => {
-      if (docSnapshot.exists()) {
-        const chatData = docSnapshot.data();
-        callback(chatData);
-      } else {
-        console.log(`Chat with ID ${chatId} does not exist.`);
-        callback(null);
-      }
-    });
+    const chatDocSnapshot = await getDoc(chatDocRef);
 
-    // Return the unsubscribe function to stop listening for updates when needed
-    return unsubscribe;
+    if (chatDocSnapshot.exists()) {
+      return chatDocSnapshot.data();
+    } else {
+      console.log(`Chat with ID ${chatId} does not exist.`);
+      return null;
+    }
   } catch (error) {
     console.error("Error getting chat by ID:", error);
     throw error;
   }
 };
 
-export const sendMessageAPI = async (chatId, message) => {
+export const chatListeners = {};
+
+export const sendMessageAPI = async (chatId, message, callback) => {
   try {
     const chatDocRef = doc(db, "chats", chatId);
 
-    // Update the 'messages' array in the document with the new message
     await updateDoc(chatDocRef, {
       messages: arrayUnion(message),
     });
 
     console.log("Message sent successfully!");
+
+    const chatListener = onSnapshot(chatDocRef, (docSnapshot) => {
+      const updatedChat = docSnapshot.data();
+      callback(updatedChat.messages);
+    });
+
+    chatListeners[chatId] = chatListener;
   } catch (error) {
     console.error("Error sending message:", error);
     throw error;

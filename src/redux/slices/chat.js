@@ -24,7 +24,8 @@ const chatSlice = createSlice({
     },
 
     receiveMessages(state, action) {
-      state.messages.push(action.payload);
+      // Update state with the new messages
+      state.messages = action.payload;
     },
 
     openModal(state) {

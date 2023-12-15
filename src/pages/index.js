@@ -11,6 +11,8 @@ export default function Page() {
     if (typeof window !== "undefined") {
       if (!user) {
         router.push("/auth/login");
+      } else {
+        router.push("/chat");
       }
     }
   }, [user, router]);

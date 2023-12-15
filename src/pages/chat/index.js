@@ -26,7 +26,15 @@ import {
   selectType,
 } from "redux/slices/chat";
 import { Container } from "@untitled-ui/icons-react";
-import { listenForNewMessages } from "firebaseConfig/firebase";
+import { chatListeners } from "firebaseConfig/firebase";
+
+const unsubscribeRealtimeUpdates = (chatId) => {
+  const chatListener = chatListeners[chatId];
+  if (chatListener) {
+    chatListener(); // Invoke the listener to unsubscribe
+    delete chatListeners[chatId]; // Remove the listener from the object
+  }
+};
 
 const Page = () => {
   const rootRef = useRef(null);
@@ -44,16 +52,12 @@ const Page = () => {
 
   useEffect(() => {
     dispatch(getChatById({ chatId: "pXGGnEugnN01X2imZcdk" }));
+    return () => {
+      unsubscribeRealtimeUpdates("pXGGnEugnN01X2imZcdk");
+    };
   }, [dispatch]);
 
-  const unsubscribe = listenForNewMessages(
-    "pXGGnEugnN01X2imZcdk",
-    (newMessage) => {
-      console.log("New message received:", newMessage);
-    }
-  );
-
-  unsubscribe();
+  console.log(messages);
 
   if (isLoading) {
     return (

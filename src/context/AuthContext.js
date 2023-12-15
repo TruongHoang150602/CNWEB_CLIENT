@@ -52,7 +52,10 @@ export const AuthProvider = (props) => {
   const handleAuthStateChanged = useCallback(
     async (user) => {
       if (user) {
-        const detailUser = await getUserByIdAPI("1");
+        let detailUser;
+        if (user.uid == "ilVcEIE9UvOYqMxWjXk2NKdFmi63")
+          detailUser = await getUserByIdAPI("1");
+        else detailUser = await getUserByIdAPI("2");
 
         dispatch({
           type: ActionType.AUTH_STATE_CHANGED,

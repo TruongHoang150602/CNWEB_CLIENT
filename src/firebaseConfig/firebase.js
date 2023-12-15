@@ -80,7 +80,9 @@ export const getChatByIdAPI = async (chatId) => {
   }
 };
 
-export const sendMessageAPI = async (chatId, message) => {
+export const chatListeners = {};
+
+export const sendMessageAPI = async (chatId, message, callback) => {
   try {
     const chatDocRef = doc(db, "chats", chatId);
 
@@ -90,34 +92,15 @@ export const sendMessageAPI = async (chatId, message) => {
     });
 
     console.log("Message sent successfully!");
-  } catch (error) {
-    console.error("Error sending message:", error);
-    throw error;
-  }
-};
 
-export const listenForNewMessages = (chatId, messageCallback) => {
-  try {
-    const messagesCollectionRef = collection(db, "chats", chatId, "messages");
-
-    // Sử dụng where để chỉ lắng nghe sự kiện khi có tin nhắn mới được thêm vào
-    const queryRef = query(messagesCollectionRef);
-
-    // Lắng nghe sự kiện sử dụng onSnapshot
-    const unsubscribe = onSnapshot(queryRef, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        const messageData = change.doc.data();
-
-        if (change.type === "added") {
-          // Gọi hàm callback để xử lý tin nhắn mới
-          messageCallback(messageData);
-        }
-      });
+    const chatListener = onSnapshot(chatDocRef, (docSnapshot) => {
+      const updatedChat = docSnapshot.data();
+      callback(updatedChat.messages);
     });
 
-    return unsubscribe;
+    chatListeners[chatId] = chatListener;
   } catch (error) {
-    console.error("Error listening for new messages:", error);
+    console.error("Error sending message:", error);
     throw error;
   }
 };
