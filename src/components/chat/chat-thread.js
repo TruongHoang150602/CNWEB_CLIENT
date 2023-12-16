@@ -50,11 +50,6 @@ export const ChatThread = (props) => {
   const { messagesRef } = useMessagesScroll(messages);
   const dispatch = useDispatch();
 
-  const callback = (messages) => {
-    // Assuming you want to dispatch the received messages
-    dispatch(receiveMessages(messages));
-  };
-
   const handleSend = useCallback(
     async (body) => {
       const message = {
@@ -64,7 +59,7 @@ export const ChatThread = (props) => {
         createdAt: new Date().getTime(),
         authorId: user.id,
       };
-      if (chatId) sendMessageAPI(chatId, message, callback);
+      if (chatId) sendMessageAPI(chatId, message);
     },
     [dispatch, chatId, user.id]
   );

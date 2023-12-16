@@ -40,7 +40,7 @@ export const ChatMessages = (props) => {
 
   return (
     <Stack spacing={2} sx={{ p: 3 }} {...other}>
-      {messages.map((message) => {
+      {messages.map((message, index) => {
         const author = getAuthor(message, participants, user);
 
         return (
@@ -50,7 +50,7 @@ export const ChatMessages = (props) => {
             body={message.body}
             contentType={message.contentType}
             createdAt={message.createdAt}
-            key={message.id}
+            key={index}
             position={author.isUser ? "right" : "left"}
           />
         );

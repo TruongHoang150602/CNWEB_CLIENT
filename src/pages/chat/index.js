@@ -15,7 +15,8 @@ import { ChatComposer } from "components/chat/chat-composer";
 import { ChatThread } from "components/chat/chat-thread";
 import { getAllChatsForUser, getChatById } from "thunk/chat";
 import { useDispatch, useSelector } from "react-redux";
-import chat, {
+import {
+  receiveMessages,
   selectChatList,
   selectCurrentChat,
   selectError,
@@ -27,10 +28,6 @@ import { Container } from "@untitled-ui/icons-react";
 import { ChatSidebar } from "components/chat/chat-sidebar";
 import { useAuth } from "hook/useAuth";
 import { listenForChatUpdates } from "pages/api/chat";
-
-const unsubscribeRealtimeUpdates = () => {
-  listenForChatUpdates();
-};
 
 const Page = () => {
   const rootRef = useRef(null);
@@ -46,10 +43,14 @@ const Page = () => {
 
   useEffect(() => {
     dispatch(getAllChatsForUser({ userId: user.id }));
-    return () => {
-      unsubscribeRealtimeUpdates();
-    };
-  }, [dispatch]);
+    const listener = listenForChatUpdates(
+      user.id,
+      chatList,
+      (updatedUserChats) => {
+        dispatch(receiveMessages(updatedUserChats));
+      }
+    );
+  }, []);
 
   if (isLoading) {
     return (

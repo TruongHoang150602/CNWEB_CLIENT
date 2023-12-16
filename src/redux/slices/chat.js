@@ -4,7 +4,7 @@ import { getAllChatsForUser, getChatById, getParticipants } from "thunk/chat";
 const chatSlice = createSlice({
   name: "chat",
   initialState: {
-    chatList: null,
+    chatList: [],
     currentChat: null,
     isLoading: true,
     view: "blank",
@@ -22,7 +22,6 @@ const chatSlice = createSlice({
     },
 
     receiveMessages(state, action) {
-      // Update state with the new messages
       state.chatList = action.payload;
     },
 
@@ -37,7 +36,7 @@ const chatSlice = createSlice({
     },
     closeModal(state) {
       state.isOpenSidebar = false;
-      state.currentBlog = null;
+      state.currentChat = null;
     },
   },
   extraReducers: (builder) => {
@@ -49,7 +48,6 @@ const chatSlice = createSlice({
       .addCase(getAllChatsForUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.chatList = action.payload;
-        console.log(action.payload);
       })
       .addCase(getAllChatsForUser.rejected, (state, action) => {
         state.isLoading = false;
