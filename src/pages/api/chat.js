@@ -1,4 +1,5 @@
 import {
+  addDoc,
   arrayUnion,
   collection,
   doc,
@@ -34,41 +35,18 @@ export const getAllChatsForUserAPI = async (userId) => {
   }
 };
 
-export const listenForChatUpdates = (userId, chatList, updateCallback) => {
+export const listenForChatUpdates = (userId, updateCallback) => {
   const chatsRef = collection(db, "chats");
   const q = query(chatsRef, where("participantIds", "array-contains", userId));
 
   const listener = onSnapshot(q, (snapshot) => {
-    const updatedUserChats = [...chatList];
-
     snapshot.docChanges().forEach((change) => {
       const doc = change.doc;
-      console.log(doc.id, updatedUserChats);
-      const updatedChatIndex = updatedUserChats.findIndex(
-        (chat) => chat.id === doc.id
-      );
 
-      if (change.type === "added" || change.type === "modified") {
-        const updatedData = { id: doc.id, ...doc.data() };
-
-        if (updatedChatIndex !== -1) {
-          // Nếu tài liệu đã tồn tại, cập nhật nó
-          updatedUserChats[updatedChatIndex] = {
-            ...updatedUserChats[updatedChatIndex],
-            ...updatedData,
-          };
-        } else {
-          // Nếu tài liệu mới, thêm vào danh sách
-          updatedUserChats.push(updatedData);
-        }
-      } else if (change.type === "removed" && updatedChatIndex !== -1) {
-        // Nếu tài liệu bị xóa, loại bỏ khỏi danh sách
-        updatedUserChats.splice(updatedChatIndex, 1);
-      }
+      let updatedData = { id: doc.id, ...doc.data() };
+      console.log(change.type);
+      updateCallback(updatedData, change.type);
     });
-
-    console.log("Updated User Chats:", updatedUserChats);
-    updateCallback(updatedUserChats);
   });
   return listener;
 };
@@ -89,7 +67,20 @@ export const sendMessageAPI = async (chatId, message) => {
   }
 };
 
-export const createNewChat = async (message, participantIds) => {};
+export const createNewChatAPI = async (newChat) => {
+  try {
+    console.log(newChat);
+    const chatsCollectionRef = collection(db, "chats");
+
+    // Thêm một chat mới vào collection 'chats'
+    await addDoc(chatsCollectionRef, newChat);
+
+    console.log("Chat created successfully!");
+  } catch (error) {
+    console.error("Error creating chat:", error);
+    throw error;
+  }
+};
 
 export const getParticipantsAPI = async (participantIds) => {
   const participants = await Promise.all(

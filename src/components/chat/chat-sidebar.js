@@ -20,11 +20,13 @@ import { getAllUsersAPI } from "pages/api/user";
 import { Scrollbar } from "components/scrollbar";
 import { getParticipantsAPI } from "pages/api/chat";
 import { id } from "date-fns/locale";
-import { selectChat } from "redux/slices/chat";
+import { searchChat, selectChat } from "redux/slices/chat";
+import { useAuth } from "hook/useAuth";
 
 export const ChatSidebar = (props) => {
   const { chatList, chatId, container, onClose, open, ...other } = props;
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const router = useRouter();
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -66,6 +68,7 @@ export const ChatSidebar = (props) => {
     (contact) => {
       // We use the contact ID as a thread key
       console.log(contact);
+      dispatch(searchChat({ contact, user }));
 
       setSearchFocused(false);
       setSearchQuery("");
@@ -83,7 +86,7 @@ export const ChatSidebar = (props) => {
         <Typography variant="h5" sx={{ flexGrow: 1 }}>
           Chats
         </Typography>
-        <Button
+        {/* <Button
           onClick={() => {}}
           startIcon={
             <SvgIcon>
@@ -93,7 +96,7 @@ export const ChatSidebar = (props) => {
           variant="contained"
         >
           Group
-        </Button>
+        </Button> */}
         {!mdUp && (
           <IconButton onClick={onClose}>
             <SvgIcon>

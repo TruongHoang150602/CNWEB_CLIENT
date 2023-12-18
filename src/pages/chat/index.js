@@ -16,6 +16,7 @@ import { ChatThread } from "components/chat/chat-thread";
 import { getAllChatsForUser, getChatById } from "thunk/chat";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  openOrCloseSidebar,
   receiveMessages,
   selectChatList,
   selectCurrentChat,
@@ -43,13 +44,9 @@ const Page = () => {
 
   useEffect(() => {
     dispatch(getAllChatsForUser({ userId: user.id }));
-    const listener = listenForChatUpdates(
-      user.id,
-      chatList,
-      (updatedUserChats) => {
-        dispatch(receiveMessages(updatedUserChats));
-      }
-    );
+    const listener = listenForChatUpdates(user.id, (updatedData, type) => {
+      dispatch(receiveMessages({ updatedData, type }));
+    });
   }, []);
 
   if (isLoading) {
@@ -65,6 +62,11 @@ const Page = () => {
       </Container>
     );
   }
+
+  const onOpenCloseSidebar = () => {
+    console.log("close");
+    dispatch(openOrCloseSidebar());
+  };
 
   return (
     <>
@@ -97,13 +99,14 @@ const Page = () => {
         >
           <ChatSidebar
             container={rootRef.current}
-            onClose={() => {}}
+            onClose={onOpenCloseSidebar}
             open={isOpenSidebar}
             chatList={chatList}
+            chatId={currentChat?.id}
           />
-          <ChatContainer open={true}>
+          <ChatContainer open={isOpenSidebar}>
             <Box sx={{ p: 2 }}>
-              <IconButton>
+              <IconButton onClick={onOpenCloseSidebar}>
                 <SvgIcon>
                   <Menu01Icon />
                 </SvgIcon>
@@ -111,13 +114,7 @@ const Page = () => {
             </Box>
             <Divider />
             {view == "blank" && <ChatBlank />}
-            {view == "chat" && (
-              <ChatThread
-                chatId={currentChat.id}
-                messages={currentChat.messages}
-                participants={currentChat.participants}
-              />
-            )}
+            {view == "chat" && <ChatThread currentChat={currentChat} />}
           </ChatContainer>
         </Box>
       </Box>

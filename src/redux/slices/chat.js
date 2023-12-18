@@ -22,7 +22,43 @@ const chatSlice = createSlice({
     },
 
     receiveMessages(state, action) {
-      state.chatList = action.payload;
+      const { updatedData, type } = action.payload;
+
+      switch (type) {
+        case "modified":
+          state.chatList.map((chat) =>
+            chat.id === updatedData.id ? { ...chat, ...updatedData } : chat
+          );
+
+          if (state.currentChat.id === updatedData.id) {
+            state.currentChat = {
+              ...state.currentChat,
+              ...updatedData,
+            };
+          }
+          break;
+
+        default:
+          break;
+      }
+    },
+
+    searchChat(state, action) {
+      const { contact, user } = action.payload;
+
+      const findChat = state.chatList.find((chat) =>
+        chat.participantIds.includes(contact.id)
+      );
+
+      state.currentChat = findChat || {
+        id: null,
+        messages: [],
+        participantIds: [contact.id, user.id],
+        participants: [contact, user],
+        type: "ONE_TO_ONE",
+        unreadCount: 0,
+      };
+      state.view = "chat";
     },
 
     selectChat(state, action) {
@@ -31,12 +67,11 @@ const chatSlice = createSlice({
       state.view = "chat";
     },
 
-    openModal(state) {
+    openSidebar(state) {
       state.isOpenSidebar = true;
     },
-    closeModal(state) {
-      state.isOpenSidebar = false;
-      state.currentChat = null;
+    openOrCloseSidebar(state) {
+      state.isOpenSidebar = !state.isOpenSidebar;
     },
   },
   extraReducers: (builder) => {
@@ -56,8 +91,13 @@ const chatSlice = createSlice({
   },
 });
 
-export const { openModal, closeModal, receiveMessages, selectChat } =
-  chatSlice.actions;
+export const {
+  openSidebar,
+  openOrCloseSidebar,
+  receiveMessages,
+  selectChat,
+  searchChat,
+} = chatSlice.actions;
 
 export const selectChatList = (state) => state.chat.chatList;
 export const selectCurrentChat = (state) => state.chat.currentChat;

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import PropTypes from "prop-types";
 import { Box, Divider, Stack } from "@mui/material";
 import { Scrollbar } from "components/scrollbar";
@@ -8,8 +7,7 @@ import { ChatMessages } from "./chat-messages";
 import { ChatThreadToolbar } from "./chat-thread-toolbar";
 import { useAuth } from "hook/useAuth";
 import { useDispatch } from "react-redux";
-import { receiveMessages } from "redux/slices/chat";
-import { sendMessageAPI } from "pages/api/chat";
+import { createNewChatAPI, sendMessageAPI } from "pages/api/chat";
 
 const useMessagesScroll = (messages) => {
   const messagesRef = useRef(null);
@@ -44,10 +42,10 @@ const useMessagesScroll = (messages) => {
 };
 
 export const ChatThread = (props) => {
-  const { chatId, messages, participants, ...other } = props;
+  const { currentChat, ...other } = props;
 
   const { user } = useAuth();
-  const { messagesRef } = useMessagesScroll(messages);
+  const { messagesRef } = useMessagesScroll(currentChat.messages);
   const dispatch = useDispatch();
 
   const handleSend = useCallback(
@@ -59,9 +57,19 @@ export const ChatThread = (props) => {
         createdAt: new Date().getTime(),
         authorId: user.id,
       };
-      if (chatId) sendMessageAPI(chatId, message);
+      console.log(currentChat);
+      if (currentChat.id) sendMessageAPI(currentChat.id, message);
+      else {
+        const newChat = {
+          type: currentChat.type,
+          participantIds: currentChat.participantIds,
+          messages: [message],
+          unreadCount: 1,
+        };
+        createNewChatAPI(newChat);
+      }
     },
-    [dispatch, chatId, user.id]
+    [dispatch, user.id]
   );
 
   // Maybe implement a loading state
@@ -74,7 +82,7 @@ export const ChatThread = (props) => {
       }}
       {...other}
     >
-      <ChatThreadToolbar participants={participants} />
+      <ChatThreadToolbar participants={currentChat.participants} />
       <Divider />
       <Box
         sx={{
@@ -84,8 +92,8 @@ export const ChatThread = (props) => {
       >
         <Scrollbar ref={messagesRef} sx={{ maxHeight: "100%" }}>
           <ChatMessages
-            messages={messages || []}
-            participants={participants || []}
+            messages={currentChat.messages || []}
+            participants={currentChat.participants || []}
           />
         </Scrollbar>
       </Box>
@@ -96,5 +104,5 @@ export const ChatThread = (props) => {
 };
 
 ChatThread.propTypes = {
-  chatId: PropTypes.string.isRequired,
+  currentChat: PropTypes.object.isRequired,
 };
