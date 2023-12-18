@@ -45,7 +45,6 @@ export const ChatSidebar = (props) => {
 
     try {
       const contacts = await getAllUsersAPI();
-      console.log(contacts);
 
       setSearchResults(contacts);
     } catch (err) {
@@ -67,7 +66,6 @@ export const ChatSidebar = (props) => {
   const handleSearchSelect = useCallback(
     (contact) => {
       // We use the contact ID as a thread key
-      console.log(contact);
       dispatch(searchChat({ contact, user }));
 
       setSearchFocused(false);
@@ -77,7 +75,7 @@ export const ChatSidebar = (props) => {
   );
 
   const handleChatSelect = useCallback((chat) => {
-    dispatch(selectChat({ chat }));
+    dispatch(selectChat(chat));
   });
 
   const content = (

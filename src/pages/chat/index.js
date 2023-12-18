@@ -31,11 +31,13 @@ import { Container } from "@untitled-ui/icons-react";
 import { ChatSidebar } from "components/chat/chat-sidebar";
 import { useAuth } from "hook/useAuth";
 import { listenForChatUpdates } from "pages/api/chat";
+import { useAppDispatch } from "hook/appHooks";
 
 const Page = () => {
   const rootRef = useRef(null);
   const { user } = useAuth();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const chatList = useSelector(selectChatList);
   const currentChat = useSelector(selectCurrentChat);
@@ -45,7 +47,6 @@ const Page = () => {
   const view = useSelector(selectView);
 
   useEffect(() => {
-    dispatch(getAllChatsForUser({ userId: user.id }));
     const listener = listenForChatUpdates(user.id, (updatedData, type) => {
       dispatch(receiveMessages({ updatedData, type }));
     });

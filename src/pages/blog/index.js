@@ -14,6 +14,7 @@ import {
 import EditBlogModal from "components/blog/EditBlogModal";
 import { Button } from "@mui/material";
 import { Layout as DashboardLayout } from "layouts/dashboard";
+import { useAppSelector } from "hook/appHooks";
 
 const featuredPosts = [
   {
@@ -40,7 +41,8 @@ const defaultTheme = createTheme();
 const Page = () => {
   const dispatch = useDispatch();
   // const posts = useSelector(selectBlogList);
-  const isOpenModal = useSelector(selectIsOpenModal);
+  // const isOpenModal = useSelector(selectIsOpenModal);
+  const isOpenModal = useAppSelector((state) => state.blog.isOpenModal);
 
   useEffect(() => {
     dispatch(getBlogsAPI());

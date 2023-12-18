@@ -6,7 +6,7 @@ const chatSlice = createSlice({
   initialState: {
     chatList: [],
     currentChat: null,
-    isLoading: true,
+    isLoading: false,
     view: "blank",
     error: null,
     isOpenSidebar: true,
@@ -38,6 +38,17 @@ const chatSlice = createSlice({
           }
           break;
 
+        case "added":
+          const findChat = state.chatList.findIndex(
+            (chat) => chat.id === updatedData.id
+          );
+          if (findChat == -1) state.chatList.push(updatedData);
+
+          if (state.currentChat?.id === null) {
+            state.currentChat = updatedData;
+          }
+          break;
+
         default:
           break;
       }
@@ -62,8 +73,7 @@ const chatSlice = createSlice({
     },
 
     selectChat(state, action) {
-      const { chat } = action.payload;
-      state.currentChat = chat;
+      state.currentChat = action.payload;
       state.view = "chat";
     },
 

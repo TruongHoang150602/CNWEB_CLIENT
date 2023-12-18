@@ -11,7 +11,6 @@ import {
 } from "firebase/firestore";
 import { db } from "firebaseConfig/firebase";
 import { getUserByIdAPI } from "./user";
-import chat from "redux/slices/chat";
 
 export const getAllChatsForUserAPI = async (userId) => {
   try {
@@ -40,11 +39,21 @@ export const listenForChatUpdates = (userId, updateCallback) => {
   const q = query(chatsRef, where("participantIds", "array-contains", userId));
 
   const listener = onSnapshot(q, (snapshot) => {
-    snapshot.docChanges().forEach((change) => {
+    snapshot.docChanges().forEach(async (change) => {
       const doc = change.doc;
+      console.log(doc);
 
       let updatedData = { id: doc.id, ...doc.data() };
-      console.log(change.type);
+
+      if (change.type == "added") {
+        const participants = await getParticipantsAPI(
+          updatedData.participantIds
+        );
+        updatedData = {
+          participants: participants,
+          ...updatedData,
+        };
+      }
       updateCallback(updatedData, change.type);
     });
   });
@@ -58,6 +67,7 @@ export const sendMessageAPI = async (chatId, message) => {
     // Update the 'messages' array in the document with the new message
     await updateDoc(chatDocRef, {
       messages: arrayUnion(message),
+      unreadCount: unreadCount++,
     });
 
     console.log("Message sent successfully!");
@@ -69,7 +79,6 @@ export const sendMessageAPI = async (chatId, message) => {
 
 export const createNewChatAPI = async (newChat) => {
   try {
-    console.log(newChat);
     const chatsCollectionRef = collection(db, "chats");
 
     // Thêm một chat mới vào collection 'chats'

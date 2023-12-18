@@ -8,7 +8,6 @@ import { NotificationsButton } from "./notifications-button";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import { useRouter } from "next/router";
 import TopNav from "./top-nav";
 const TOP_NAV_HEIGHT = 64;
 

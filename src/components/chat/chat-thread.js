@@ -46,31 +46,28 @@ export const ChatThread = (props) => {
 
   const { user } = useAuth();
   const { messagesRef } = useMessagesScroll(currentChat.messages);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const handleSend = useCallback(
-    async (body) => {
-      const message = {
-        body: body,
-        attachments: [],
-        contentType: "text",
-        createdAt: new Date().getTime(),
-        authorId: user.id,
+  const handleSend = async (body) => {
+    const message = {
+      body: body,
+      attachments: [],
+      contentType: "text",
+      createdAt: new Date().getTime(),
+      authorId: user.id,
+    };
+    console.log(currentChat);
+    if (currentChat.id) sendMessageAPI(currentChat.id, message);
+    else {
+      const newChat = {
+        type: currentChat.type,
+        participantIds: currentChat.participantIds,
+        messages: [message],
+        unreadCount: 1,
       };
-      console.log(currentChat);
-      if (currentChat.id) sendMessageAPI(currentChat.id, message);
-      else {
-        const newChat = {
-          type: currentChat.type,
-          participantIds: currentChat.participantIds,
-          messages: [message],
-          unreadCount: 1,
-        };
-        createNewChatAPI(newChat);
-      }
-    },
-    [dispatch, user.id]
-  );
+      createNewChatAPI(newChat);
+    }
+  };
 
   // Maybe implement a loading state
 

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 const TopNav = ({ href, children }) => {
   const { pathname } = useRouter();
-  console.log(pathname, href);
+
   const isActive = pathname === href;
 
   return (
