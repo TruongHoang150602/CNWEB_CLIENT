@@ -25,6 +25,8 @@ import {
   selectIsOpenSideBar,
   selectView,
 } from "redux/slices/chat";
+import { Layout as DashboardLayout } from "layouts/dashboard";
+
 import { Container } from "@untitled-ui/icons-react";
 import { ChatSidebar } from "components/chat/chat-sidebar";
 import { useAuth } from "hook/useAuth";
@@ -73,16 +75,13 @@ const Page = () => {
       <Head>
         <title>Chat | QuizzifyME</title>
       </Head>
-      <Divider />
       <Box
-        component="main"
         sx={{
           backgroundColor: "background.paper",
           flex: "1 1 auto",
           overflow: "hidden",
           position: "relative",
-          height: "600px",
-          margin: "40px",
+          height: "520px",
           borderRadius: "20px",
         }}
       >
@@ -121,5 +120,7 @@ const Page = () => {
     </>
   );
 };
+
+Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default Page;

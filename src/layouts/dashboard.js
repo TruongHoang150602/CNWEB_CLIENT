@@ -3,14 +3,20 @@ import PropTypes from "prop-types";
 import { Box, Container, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Logo } from "components/logo";
+import { AccountButton } from "./account-button";
+import { NotificationsButton } from "./notifications-button";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded";
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import { useRouter } from "next/router";
+import TopNav from "./top-nav";
 const TOP_NAV_HEIGHT = 64;
 
 const LayoutRoot = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
-  backgroundRepeat: "no-repeat",
+  backgroundRepeat: "repeat",
   backgroundPosition: "top center",
+  backgroundImage: 'url("/background/background2.jpg")',
   display: "flex",
   flex: "1 1 auto",
   flexDirection: "column",
@@ -19,19 +25,16 @@ const LayoutRoot = styled("div")(({ theme }) => ({
 
 export const Layout = (props) => {
   const { children } = props;
-
   return (
     <LayoutRoot>
       <Box
         component="header"
         sx={{
+          backgroundColor: "#f0f0f0",
           left: 0,
           position: "fixed",
           right: 0,
           top: 0,
-          opacity: 1,
-          boxShadow:
-            "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
           zIndex: (theme) => theme.zIndex.appBar,
         }}
       >
@@ -39,10 +42,11 @@ export const Layout = (props) => {
           <Stack direction="row" spacing={2} sx={{ height: TOP_NAV_HEIGHT }}>
             <Stack
               alignItems="center"
+              justifyContent="center"
               component={NextLink}
               direction="row"
               display="inline-flex"
-              href=""
+              href="/blog"
               spacing={1}
               sx={{ textDecoration: "none" }}
             >
@@ -75,46 +79,36 @@ export const Layout = (props) => {
             <Stack
               alignItems="center"
               direction="row"
-              display="inline-flex"
-              spacing={1}
-              sx={{ textDecoration: "none" }}
+              sx={{
+                flex: 1,
+                justifyContent: "center",
+                backgroundColor: "#f0f0f0", // Background color for the tabs
+                borderRadius: "8px", // Border radius for rounded corners
+                padding: "8px", // Padding for each tab
+              }}
             >
-              <Box
-                sx={{
-                  display: "inline-flex",
-                  height: 24,
-                  width: 24,
-                }}
-              >
-                <HomeRoundedIcon />
-              </Box>
-              <Box
-                sx={{
-                  display: "inline-flex",
-                  height: 24,
-                  width: 24,
-                }}
-              >
-                <HomeRoundedIcon />
-              </Box>
-              <Box
-                sx={{
-                  display: "inline-flex",
-                  height: 24,
-                  width: 24,
-                }}
-              >
-                <HomeRoundedIcon />
-              </Box>
-              <Box
-                sx={{
-                  display: "inline-flex",
-                  height: 24,
-                  width: 24,
-                }}
-              >
-                <HomeRoundedIcon />
-              </Box>
+              <TopNav href="/blog">
+                <HomeRoundedIcon sx={{ width: "32px", height: "32px" }} />
+              </TopNav>
+              <TopNav href="/chat">
+                <ChatBubbleOutlineOutlinedIcon
+                  sx={{ width: "32px", height: "32px" }}
+                />
+              </TopNav>
+              <TopNav href="/education">
+                <SchoolOutlinedIcon sx={{ width: "32px", height: "32px" }} />
+              </TopNav>
+            </Stack>
+
+            <Stack
+              alignItems="center"
+              direction="row"
+              spacing={4}
+              sx={{ justifyContent: "flex-end" }}
+            >
+              <NotificationsButton />
+              {/* <ContactsButton /> */}
+              <AccountButton />
             </Stack>
           </Stack>
         </Container>
@@ -128,12 +122,11 @@ export const Layout = (props) => {
         }}
       >
         <Container
-          maxWidth="sm"
+          maxWidth="lg"
           sx={{
-            py: {
-              xs: "60px",
-              md: "120px",
-            },
+            pt: "100px",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           {children}
