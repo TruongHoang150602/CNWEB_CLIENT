@@ -82,7 +82,7 @@ const Page = () => {
           flex: "1 1 auto",
           overflow: "hidden",
           position: "relative",
-          height: "520px",
+          height: "calc(100vh - 140px)",
           borderRadius: "20px",
         }}
       >

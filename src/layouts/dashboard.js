@@ -124,6 +124,7 @@ export const Layout = (props) => {
           maxWidth="lg"
           sx={{
             pt: "100px",
+            pb: "40px",
             alignItems: "center",
             justifyContent: "center",
           }}

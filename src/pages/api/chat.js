@@ -67,7 +67,7 @@ export const sendMessageAPI = async (chatId, message) => {
     // Update the 'messages' array in the document with the new message
     await updateDoc(chatDocRef, {
       messages: arrayUnion(message),
-      unreadCount: unreadCount++,
+      unreadCount: doc.data().unreadCount++,
     });
 
     console.log("Message sent successfully!");
