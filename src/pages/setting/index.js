@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import { subDays, subHours, subMinutes, subMonths } from "date-fns";
 import {
@@ -14,6 +14,7 @@ import { Layout as DashboardLayout } from "layouts/dashboard";
 import { AccountGeneralSettings } from "components/setting/account-general-settings";
 import { AccountSecuritySettings } from "components/setting/account-security-settings";
 import { useAuth } from "hook/useAuth";
+import { getFullUserInfoIdAPI } from "pages/api/user";
 
 const now = new Date();
 
@@ -33,7 +34,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Dashboard: Account | Devias Kit PRO</title>
+        <title>Setting</title>
       </Head>
       <Box
         component="main"

@@ -41,8 +41,6 @@ export const listenForChatUpdates = (userId, updateCallback) => {
   const listener = onSnapshot(q, (snapshot) => {
     snapshot.docChanges().forEach(async (change) => {
       const doc = change.doc;
-      console.log(doc);
-
       let updatedData = { id: doc.id, ...doc.data() };
 
       if (change.type == "added") {
@@ -67,7 +65,7 @@ export const sendMessageAPI = async (chatId, message) => {
     // Update the 'messages' array in the document with the new message
     await updateDoc(chatDocRef, {
       messages: arrayUnion(message),
-      unreadCount: doc.data().unreadCount++,
+      unreadCount: 1,
     });
 
     console.log("Message sent successfully!");

@@ -4,8 +4,7 @@ import { GET, POST, PUT } from "utils/url";
 export const getUserByIdAPI = async (userId) => {
   try {
     const response = await GET({
-      baseURL: "https://653b1ca02e42fd0d54d4b3b0.mockapi.io",
-      url: `/users/${userId}`,
+      url: `/users/userById/${userId}`,
     });
     return response;
   } catch (error) {
@@ -13,11 +12,22 @@ export const getUserByIdAPI = async (userId) => {
   }
 };
 
-export const getAllUsersAPI = async () => {
+export const getFullUserInfoIdAPI = async (userId) => {
   try {
     const response = await GET({
-      baseURL: "https://653b1ca02e42fd0d54d4b3b0.mockapi.io",
-      url: `/users`,
+      url: `/users/fullUserInfo/${userId}`,
+    });
+    return response;
+  } catch (error) {
+    throw new Error("Failed to fetch user data from API");
+  }
+};
+
+export const getAllUsersAPI = async (query) => {
+  try {
+    const response = await POST({
+      url: `/users/userByQuery`,
+      params: query,
     });
     return response;
   } catch (error) {
@@ -28,7 +38,6 @@ export const getAllUsersAPI = async () => {
 export const updateUserDataAPI = async (user) => {
   try {
     const response = await PUT({
-      baseURL: "https://653b1ca02e42fd0d54d4b3b0.mockapi.io",
       url: `/users/${user.id}`,
       params: user,
     });
@@ -41,7 +50,6 @@ export const updateUserDataAPI = async (user) => {
 export const createNewUserAPI = async (userId, name) => {
   try {
     const response = await POST({
-      baseURL: "https://653b1ca02e42fd0d54d4b3b0.mockapi.io",
       url: `/users`,
       params: { userId, name },
     });

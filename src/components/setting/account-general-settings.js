@@ -16,9 +16,16 @@ import {
 import Camera01Icon from "@untitled-ui/icons-react/build/esm/Camera01";
 import User01Icon from "@untitled-ui/icons-react/build/esm/User01";
 import { alpha } from "@mui/material/styles";
+import { format, parseISO } from "date-fns";
+
+function formatDateString(inputDateString) {
+  const parsedDate = parseISO(inputDateString);
+  return format(parsedDate, "yyyy-MM-dd");
+}
 
 export const AccountGeneralSettings = (props) => {
   const { user } = props;
+  console.log(user);
 
   return (
     <Stack spacing={4} {...props}>
@@ -109,7 +116,6 @@ export const AccountGeneralSettings = (props) => {
                 <Stack alignItems="center" direction="row">
                   <TextField
                     defaultValue={user.email}
-                    disabled
                     label="Email Address"
                     required
                     sx={{
@@ -124,7 +130,6 @@ export const AccountGeneralSettings = (props) => {
                 <Stack alignItems="center" direction="row">
                   <TextField
                     defaultValue={user.phone}
-                    disabled
                     label="Phone"
                     sx={{
                       flexGrow: 1,
@@ -152,7 +157,6 @@ export const AccountGeneralSettings = (props) => {
                 <Stack alignItems="center" direction="row">
                   <TextField
                     defaultValue={user.class}
-                    disabled
                     label="Class"
                     sx={{
                       flexGrow: 1,
@@ -177,7 +181,7 @@ export const AccountGeneralSettings = (props) => {
               <Stack spacing={3}>
                 <Stack alignItems="center" direction="row">
                   <TextField
-                    defaultValue={user.dob}
+                    defaultValue={formatDateString(user.dob)}
                     label="Birthday"
                     type="date"
                     sx={{ flexGrow: 1 }}
@@ -186,7 +190,6 @@ export const AccountGeneralSettings = (props) => {
                 <Stack alignItems="center" direction="row">
                   <TextField
                     defaultValue={user.address}
-                    disabled
                     label="Address"
                     sx={{
                       flexGrow: 1,
@@ -251,23 +254,6 @@ export const AccountGeneralSettings = (props) => {
                     </Typography>
                   </Stack>
                   <Switch />
-                </Stack>
-                <Stack
-                  alignItems="flex-start"
-                  direction="row"
-                  justifyContent="space-between"
-                  spacing={3}
-                >
-                  <Stack spacing={1}>
-                    <Typography variant="subtitle1">
-                      Available to hire
-                    </Typography>
-                    <Typography color="text.secondary" variant="body2">
-                      Toggling this will let your teammates know that you are
-                      available for acquiring new projects.
-                    </Typography>
-                  </Stack>
-                  <Switch defaultChecked />
                 </Stack>
               </Stack>
             </Grid>

@@ -15,16 +15,15 @@ import {
 } from "@mui/material";
 import { ChatSidebarSearch } from "./chat-sidebar-search";
 import { ChatThreadItem } from "./chat-thread-item";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllUsersAPI } from "pages/api/user";
 import { Scrollbar } from "components/scrollbar";
-import { getParticipantsAPI } from "pages/api/chat";
-import { id } from "date-fns/locale";
-import { searchChat, selectChat } from "redux/slices/chat";
+import { searchChat, selectChat, selectChatList } from "redux/slices/chat";
 import { useAuth } from "hook/useAuth";
 
 export const ChatSidebar = (props) => {
-  const { chatList, chatId, container, onClose, open, ...other } = props;
+  const { chatId, container, onClose, open, ...other } = props;
+  const chatList = useSelector(selectChatList);
   const dispatch = useDispatch();
   const { user } = useAuth();
   const router = useRouter();
@@ -44,7 +43,7 @@ export const ChatSidebar = (props) => {
     }
 
     try {
-      const contacts = await getAllUsersAPI();
+      const contacts = await getAllUsersAPI(value);
 
       setSearchResults(contacts);
     } catch (err) {

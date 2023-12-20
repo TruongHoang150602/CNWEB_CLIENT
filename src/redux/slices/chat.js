@@ -26,11 +26,11 @@ const chatSlice = createSlice({
 
       switch (type) {
         case "modified":
-          state.chatList.map((chat) =>
+          state.chatList = state.chatList.map((chat) =>
             chat.id === updatedData.id ? { ...chat, ...updatedData } : chat
           );
 
-          if (state.currentChat.id === updatedData.id) {
+          if (state.currentChat?.id === updatedData.id) {
             state.currentChat = {
               ...state.currentChat,
               ...updatedData,
@@ -45,6 +45,7 @@ const chatSlice = createSlice({
           if (findChat == -1) state.chatList.push(updatedData);
 
           if (state.currentChat?.id === null) {
+            console.log(updatedData);
             state.currentChat = updatedData;
           }
           break;
@@ -74,6 +75,9 @@ const chatSlice = createSlice({
 
     selectChat(state, action) {
       state.currentChat = action.payload;
+      state.chatList = state.chatList.map((chat) =>
+        chat.id === state.currentChat.id ? { ...chat, unreadCount: 0 } : chat
+      );
       state.view = "chat";
     },
 

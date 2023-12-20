@@ -43,7 +43,6 @@ const Page = () => {
     validationSchema,
     onSubmit: async (values, helpers) => {
       try {
-        console.log(values);
         await signInWithEmailAndPassword(values.email, values.password);
         router.push("/");
       } catch (err) {

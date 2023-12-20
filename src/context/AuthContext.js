@@ -9,7 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "firebaseConfig/firebase";
-import { getUserByIdAPI } from "pages/api/user";
+import { getFullUserInfoIdAPI, getUserByIdAPI } from "pages/api/user";
 
 var ActionType;
 (function (ActionType) {
@@ -52,20 +52,16 @@ export const AuthProvider = (props) => {
   const handleAuthStateChanged = useCallback(
     async (user) => {
       if (user) {
-        let detailUser;
-        if (user.uid == "ilVcEIE9UvOYqMxWjXk2NKdFmi63")
-          detailUser = await getUserByIdAPI("1");
-        else detailUser = await getUserByIdAPI("2");
+        console.log(user);
+        const detailUser = await getFullUserInfoIdAPI(user.uid);
 
         dispatch({
           type: ActionType.AUTH_STATE_CHANGED,
           payload: {
             isAuthenticated: true,
             user: {
-              id: detailUser.id,
-              avatar: detailUser.avatar,
-              email: detailUser.email,
-              name: detailUser.name,
+              ...user,
+              ...detailUser,
             },
           },
         });
