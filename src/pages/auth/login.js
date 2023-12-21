@@ -22,8 +22,8 @@ import { Layout as AuthLayout } from "layouts/auth";
 import { useAuth } from "hook/useAuth";
 
 const initialValues = {
-  email: "truonghoang150602@gmail.com",
-  password: "123456",
+  email: "a@gmail.com",
+  password: "1234567",
   submit: null,
 };
 
@@ -116,7 +116,7 @@ const Page = () => {
                   <Box
                     alt="Google"
                     component="img"
-                    src="/icon/google.svg"
+                    src="/assets/icons/google.svg"
                     sx={{ mr: 1 }}
                   />
                   Google
@@ -189,8 +189,7 @@ const Page = () => {
         <Stack spacing={3} sx={{ mt: 3 }}>
           <Alert severity="error">
             <div>
-              You can use <b>truonghoang150602@gmail.com</b> and password{" "}
-              <b>123456</b>
+              You can use <b>a@gmail.com</b> and password <b>1234567</b>
             </div>
           </Alert>
           {/* <AuthIssuer issuer={issuer} /> */}

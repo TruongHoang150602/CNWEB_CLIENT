@@ -155,7 +155,7 @@ const renderContent = (notification) => {
 export const NotificationsPopover = (props) => {
   const {
     anchorEl,
-    notifications,
+    notifications = [],
     onClose,
     onMarkAllAsRead,
     onRemoveOne,

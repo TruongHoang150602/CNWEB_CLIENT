@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import Head from "next/head";
-import { useSearchParams } from "next/navigation";
 import Menu01Icon from "@untitled-ui/icons-react/build/esm/Menu01";
 import {
   Box,
@@ -11,9 +10,7 @@ import {
 } from "@mui/material";
 import { ChatBlank } from "components/chat/chat-blank";
 import { ChatContainer } from "components/chat/chat-container";
-import { ChatComposer } from "components/chat/chat-composer";
 import { ChatThread } from "components/chat/chat-thread";
-import { getAllChatsForUser, getChatById } from "thunk/chat";
 import { useDispatch, useSelector } from "react-redux";
 import {
   openOrCloseSidebar,
@@ -25,13 +22,14 @@ import {
   selectIsOpenSideBar,
   selectView,
 } from "redux/slices/chat";
-import { Layout as DashboardLayout } from "layouts/dashboard";
+// import { Layout as DashboardLayout } from "layouts/dashboard";
 
 import { Container } from "@untitled-ui/icons-react";
 import { ChatSidebar } from "components/chat/chat-sidebar";
 import { useAuth } from "hook/useAuth";
 import { listenForChatUpdates } from "pages/api/chat";
 import { useAppDispatch } from "hook/appHooks";
+import DashboardLayout from "layouts/dashboard/DashboardLayout";
 
 const Page = () => {
   const rootRef = useRef(null);

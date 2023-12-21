@@ -13,8 +13,8 @@ import {
 } from "redux/slices/blog";
 import EditBlogModal from "components/blog/EditBlogModal";
 import { Button } from "@mui/material";
-import { Layout as DashboardLayout } from "layouts/dashboard";
 import { useAppSelector } from "hook/appHooks";
+import DashboardLayout from "layouts/dashboard/DashboardLayout";
 
 const featuredPosts = [
   {

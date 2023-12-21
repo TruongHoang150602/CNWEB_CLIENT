@@ -1,11 +1,9 @@
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import PropTypes from "prop-types";
-import PlusIcon from "@untitled-ui/icons-react/build/esm/Plus";
 import XIcon from "@untitled-ui/icons-react/build/esm/X";
 import {
   Box,
-  Button,
   Drawer,
   IconButton,
   Stack,

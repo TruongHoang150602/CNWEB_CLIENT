@@ -29,22 +29,17 @@ import {
 } from "redux/slices/question";
 import ConfirmSubmitModal from "components/question/confirmSubmitModal";
 import DrawerRanking from "components/question/drawerRanking";
-import {
-  closeDrawer,
-  getUsersAPI,
-  openDrawer,
-  selectIsOpenDrawer,
-  selectUserList,
-} from "redux/slices/user";
+import { closeDrawer, openDrawer } from "redux/slices/user";
 import Quizz from "components/question/quizz";
 import QuestionsBoard from "components/question/questionsBoard";
 import Review from "components/question/review";
 import Result from "components/question/result";
 import { useRouter } from "next/router";
+import DashboardLayout from "layouts/dashboard/DashboardLayout";
 
 const defaultTheme = createTheme();
 
-export default function Page(props) {
+const Page = (props) => {
   const dispatch = useDispatch();
   const { query } = useRouter();
   const { testId } = query;
@@ -178,4 +173,8 @@ export default function Page(props) {
       /> */}
     </ThemeProvider>
   );
-}
+};
+
+Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+
+export default Page;

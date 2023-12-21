@@ -10,11 +10,10 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { Layout as DashboardLayout } from "layouts/dashboard";
 import { AccountGeneralSettings } from "components/setting/account-general-settings";
 import { AccountSecuritySettings } from "components/setting/account-security-settings";
 import { useAuth } from "hook/useAuth";
-import { getFullUserInfoIdAPI } from "pages/api/user";
+import DashboardLayout from "layouts/dashboard/DashboardLayout";
 
 const now = new Date();
 

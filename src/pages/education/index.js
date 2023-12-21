@@ -9,8 +9,9 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DashboardLayout from "layouts/dashboard/DashboardLayout";
 
-export default function Page(props) {
+const Page = (props) => {
   const dispatch = useDispatch();
   const testList = useSelector(selectTestList);
   const isLoading = useSelector(selectIsLoading);
@@ -52,4 +53,8 @@ export default function Page(props) {
       </Grid>
     </Container>
   );
-}
+};
+
+Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+
+export default Page;
