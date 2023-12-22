@@ -16,7 +16,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   changeTab,
   chooseQuestion,
-  getUserResultAPI,
   selectCurrentQuestion,
   selectError,
   selectIsLoading,
@@ -36,6 +35,8 @@ import Review from "components/question/review";
 import Result from "components/question/result";
 import { useRouter } from "next/router";
 import DashboardLayout from "layouts/dashboard/DashboardLayout";
+import { getUserResult } from "thunk/question";
+import { useAuth } from "hook/useAuth";
 
 const defaultTheme = createTheme();
 
@@ -43,6 +44,7 @@ const Page = (props) => {
   const dispatch = useDispatch();
   const { query } = useRouter();
   const { testId } = query;
+  const { user } = useAuth();
 
   const userAnswer = useSelector(selectUserAnswer);
   const currentQuestion = useSelector(selectCurrentQuestion);
@@ -57,7 +59,7 @@ const Page = (props) => {
   // const isOpenDrawer = useSelector(selectIsOpenDrawer);
 
   useEffect(() => {
-    dispatch(getUserResultAPI({ testId, type }));
+    dispatch(getUserResult({ userId: user.id, testId, type }));
   }, [dispatch]);
 
   console.log(userAnswer);
@@ -98,7 +100,7 @@ const Page = (props) => {
 
   const onChangeTab = (event, type) => {
     console.log(type);
-    dispatch(changeTab({ testId, type }));
+    dispatch(changeTab({ userId: user.id, testId, type }));
   };
 
   return (

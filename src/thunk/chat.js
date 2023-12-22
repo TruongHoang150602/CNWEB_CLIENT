@@ -5,9 +5,9 @@ export const getAllChatsForUser = createAsyncThunk(
   "chats/getAllChat",
   async ({ userId }, { rejectWithValue }) => {
     try {
-      const chatList = await getAllChatsForUserAPI(userId);
+      const chatlist = await getAllChatsForUserAPI(userId);
       const chatListWithParticipants = await Promise.all(
-        chatList.map(async (chat) => {
+        chatlist.map(async (chat) => {
           const participants = await getParticipantsAPI(chat.participantIds);
           return {
             ...chat,

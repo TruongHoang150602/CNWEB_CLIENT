@@ -4,7 +4,7 @@ import { getAllChatsForUser, getChatById, getParticipants } from "thunk/chat";
 const chatSlice = createSlice({
   name: "chat",
   initialState: {
-    chatList: [],
+    chatlist: [],
     currentChat: null,
     isLoading: false,
     view: "blank",
@@ -26,7 +26,7 @@ const chatSlice = createSlice({
 
       switch (type) {
         case "modified":
-          state.chatList = state.chatList.map((chat) =>
+          state.chatlist = state.chatlist.map((chat) =>
             chat.id === updatedData.id ? { ...chat, ...updatedData } : chat
           );
 
@@ -39,10 +39,10 @@ const chatSlice = createSlice({
           break;
 
         case "added":
-          const findChat = state.chatList.findIndex(
+          const findChat = state.chatlist.findIndex(
             (chat) => chat.id === updatedData.id
           );
-          if (findChat == -1) state.chatList.push(updatedData);
+          if (findChat == -1) state.chatlist.push(updatedData);
 
           if (state.currentChat?.id === null) {
             console.log(updatedData);
@@ -53,12 +53,14 @@ const chatSlice = createSlice({
         default:
           break;
       }
+
+      state.chatlist.sort((a, b) => b.updatedAt - a.updatedAt);
     },
 
     searchChat(state, action) {
       const { contact, user } = action.payload;
 
-      const findChat = state.chatList.find((chat) =>
+      const findChat = state.chatlist.find((chat) =>
         chat.participantIds.includes(contact.id)
       );
 
@@ -73,9 +75,14 @@ const chatSlice = createSlice({
       state.view = "chat";
     },
 
+    sendChat(state, action) {
+      const { message } = action.payload;
+      state.currentChat.messages.push(message);
+    },
+
     selectChat(state, action) {
       state.currentChat = action.payload;
-      state.chatList = state.chatList.map((chat) =>
+      state.chatlist = state.chatlist.map((chat) =>
         chat.id === state.currentChat.id ? { ...chat, unreadCount: 0 } : chat
       );
       state.view = "chat";
@@ -96,7 +103,7 @@ const chatSlice = createSlice({
       })
       .addCase(getAllChatsForUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.chatList = action.payload;
+        state.chatlist = action.payload;
       })
       .addCase(getAllChatsForUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -111,9 +118,10 @@ export const {
   receiveMessages,
   selectChat,
   searchChat,
+  sendChat,
 } = chatSlice.actions;
 
-export const selectChatList = (state) => state.chat.chatList;
+export const selectChatList = (state) => state.chat.chatlist;
 export const selectCurrentChat = (state) => state.chat.currentChat;
 export const selectIsLoading = (state) => state.chat.isLoading;
 export const selectError = (state) => state.chat.error;

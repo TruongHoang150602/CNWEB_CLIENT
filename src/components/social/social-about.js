@@ -1,178 +1,105 @@
-import PropTypes from 'prop-types';
-import BookOpen01Icon from '@untitled-ui/icons-react/build/esm/BookOpen01';
-import Briefcase01Icon from '@untitled-ui/icons-react/build/esm/Briefcase01';
-import Home02Icon from '@untitled-ui/icons-react/build/esm/Home02';
-import Mail01Icon from '@untitled-ui/icons-react/build/esm/Mail01';
+import PropTypes from "prop-types";
+import BookOpen01Icon from "@untitled-ui/icons-react/build/esm/BookOpen01";
+import Briefcase01Icon from "@untitled-ui/icons-react/build/esm/Briefcase01";
+import Home02Icon from "@untitled-ui/icons-react/build/esm/Home02";
+import Mail01Icon from "@untitled-ui/icons-react/build/esm/Mail01";
+import CallIcon from "@mui/icons-material/Call";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import CakeIcon from "@mui/icons-material/Cake";
 import {
   Card,
   CardContent,
   CardHeader,
-  LinearProgress,
-  Link,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
   Stack,
   SvgIcon,
-  Typography
-} from '@mui/material';
+  Typography,
+} from "@mui/material";
+import { format, parseISO } from "date-fns";
 
 export const SocialAbout = (props) => {
-  const {
-    currentCity,
-    currentJobCompany,
-    currentJobTitle,
-    email,
-    originCity,
-    previousJobCompany,
-    previousJobTitle,
-    profileProgress,
-    quote,
-    ...other
-  } = props;
+  const { profile } = props;
 
   return (
-    <Stack
-      spacing={3}
-      {...other}>
-      <Card>
-        <CardHeader title="Profile Progress" />
-        <CardContent>
-          <Stack spacing={2}>
-            <LinearProgress
-              value={profileProgress}
-              variant="determinate"
-            />
-            <Typography
-              color="text.secondary"
-              variant="subtitle2"
-            >
-              50% Set Up Complete
-            </Typography>
-          </Stack>
-        </CardContent>
-      </Card>
+    <Stack spacing={3}>
       <Card>
         <CardHeader title="About" />
         <CardContent>
-          <Typography
-            color="text.secondary"
-            sx={{ mb: 2 }}
-            variant="subtitle2"
-          >
-            &quot;
-            {quote}
-            &quot;
-          </Typography>
-          <List disablePadding>
-            <ListItem
-              disableGutters
-              divider
+          {profile.description && (
+            <Typography
+              color="text.secondary"
+              sx={{ mb: 2 }}
+              variant="subtitle2"
             >
+              {profile.description}
+            </Typography>
+          )}
+          <List disablePadding>
+            <ListItem disableGutters divider>
               <ListItemAvatar>
                 <SvgIcon color="action">
-                  <Briefcase01Icon />
+                  <CakeIcon />
                 </SvgIcon>
               </ListItemAvatar>
               <ListItemText
-                disableTypography
-                primary={(
+                primary={
                   <Typography variant="subtitle2">
-                    {currentJobTitle}
-                    {' '}
-                    at
-                    {' '}
-                    <Link
-                      color="text.primary"
-                      href="#"
-                      variant="subtitle2"
-                    >
-                      {currentJobCompany}
-                    </Link>
+                    {format(parseISO(profile.dob), "yyyy-MM-dd")}
                   </Typography>
-                )}
-                secondary={(
-                  <Typography
-                    color="text.secondary"
-                    variant="body2"
-                  >
-                    Past:
-                    {' '}
-                    {previousJobTitle}
-                    {' '}
-                    <Link
-                      color="text.secondary"
-                      href="#"
-                      variant="body2"
-                    >
-                      {previousJobCompany}
-                    </Link>
-                  </Typography>
-                )}
+                }
               />
             </ListItem>
-            <ListItem
-              disableGutters
-              divider
-            >
+
+            <ListItem disableGutters divider>
+              <ListItemAvatar>
+                <SvgIcon color="action">
+                  <CallIcon />
+                </SvgIcon>
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography variant="subtitle2">{profile.phone}</Typography>
+                }
+              />
+            </ListItem>
+
+            <ListItem disableGutters divider>
+              <ListItemAvatar>
+                <SvgIcon color="action">
+                  <CreditCardIcon />
+                </SvgIcon>
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography variant="subtitle2">{profile.mssv}</Typography>
+                }
+              />
+            </ListItem>
+            <ListItem disableGutters divider>
               <ListItemAvatar>
                 <SvgIcon color="action">
                   <BookOpen01Icon />
                 </SvgIcon>
               </ListItemAvatar>
               <ListItemText
-                primary={(
-                  <Link
-                    color="text.secondary"
-                    sx={{ cursor: 'pointer' }}
-                    variant="caption"
-                  >
-                    Add school or collage
-                  </Link>
-                )}
+                primary={
+                  <Typography variant="subtitle2">{profile.class}</Typography>
+                }
               />
             </ListItem>
-            <ListItem
-              disableGutters
-              divider
-            >
+            <ListItem disableGutters divider>
               <ListItemAvatar>
                 <SvgIcon color="action">
                   <Home02Icon />
                 </SvgIcon>
               </ListItemAvatar>
               <ListItemText
-                disableTypography
-                primary={(
-                  <Typography variant="subtitle2">
-                    Lives in
-                    {' '}
-                    <Link
-                      color="text.primary"
-                      href="#"
-                      variant="subtitle2"
-                    >
-                      {currentCity}
-                    </Link>
-                  </Typography>
-                )}
-                secondary={(
-                  <Typography
-                    color="text.secondary"
-                    variant="body2"
-                  >
-                    Originally from
-                    {' '}
-                    <Link
-                      color="text.secondary"
-                      href="#"
-                      variant="body2"
-                    >
-                      {originCity}
-                    </Link>
-                  </Typography>
-                )}
+                primary={
+                  <Typography variant="subtitle2">{profile.address}</Typography>
+                }
               />
             </ListItem>
             <ListItem disableGutters>
@@ -182,11 +109,9 @@ export const SocialAbout = (props) => {
                 </SvgIcon>
               </ListItemAvatar>
               <ListItemText
-                primary={(
-                  <Typography variant="subtitle2">
-                    {email}
-                  </Typography>
-                )}
+                primary={
+                  <Typography variant="subtitle2">{profile.email}</Typography>
+                }
               />
             </ListItem>
           </List>
@@ -197,13 +122,5 @@ export const SocialAbout = (props) => {
 };
 
 SocialAbout.propTypes = {
-  currentCity: PropTypes.string.isRequired,
-  currentJobCompany: PropTypes.string.isRequired,
-  currentJobTitle: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  originCity: PropTypes.string.isRequired,
-  previousJobCompany: PropTypes.string.isRequired,
-  previousJobTitle: PropTypes.string.isRequired,
-  profileProgress: PropTypes.number.isRequired,
-  quote: PropTypes.string.isRequired
+  profile: PropTypes.object,
 };

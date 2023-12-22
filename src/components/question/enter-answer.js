@@ -67,7 +67,7 @@ export default function EnterAnswer(props) {
           <Button className="answerOptionBtn correctOptionBtn" disabled={true}>
             <SVGIcon src="correct.svg" sx={{ width: "12px", height: "12px" }} />
           </Button>
-          {options.map((option) => option.option.option_text + " ")}
+          {options.map((option) => option.option_text + " ")}
           <Box className={`explanation ${showAnswer && "show-explanation"}`}>
             <Button
               variant="text"

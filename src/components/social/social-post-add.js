@@ -4,6 +4,7 @@ import Image01Icon from "@untitled-ui/icons-react/build/esm/Image01";
 import Link01Icon from "@untitled-ui/icons-react/build/esm/Link01";
 import {
   Avatar,
+  Box,
   Button,
   Card,
   CardContent,
@@ -15,10 +16,59 @@ import {
 } from "@mui/material";
 import { getInitials } from "utils/get-initials";
 import { useAuth } from "hook/useAuth";
+import { useCallback, useRef, useState } from "react";
+import { createNewPostAPI } from "pages/api/social";
+import toast from "react-hot-toast";
 
 export const SocialPostAdd = (props) => {
+  const { onPost } = props;
   const { user } = useAuth();
   const smUp = useMediaQuery((theme) => theme.breakpoints.up("sm"));
+  const fileInputRef = useRef(null);
+  const [body, setBody] = useState("");
+  const [attachment, setAttachment] = useState(null);
+
+  const handleAttach = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  const handleFileChange = useCallback((event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile && selectedFile.type.startsWith("image/")) {
+      setAttachment(selectedFile);
+    } else {
+      toast.error("Invalid file type. Please select an image.");
+    }
+  }, []);
+
+  const handleChange = useCallback((event) => {
+    setBody(event.target.value);
+  }, []);
+
+  const handleSend = useCallback(() => {
+    if (!body) {
+      return;
+    }
+
+    console.log(body, attachment);
+    const newPost = {
+      author_id: user.id,
+      content: body,
+      attachment: attachment ? "/background/cover2.jpeg" : null,
+    };
+    onPost?.(newPost);
+    setBody("");
+    setAttachment(null);
+  }, [body]);
+
+  const handleKeyUp = useCallback(
+    (event) => {
+      if (event.code === "Enter") {
+        handleSend();
+      }
+    },
+    [handleSend]
+  );
 
   return (
     <Card {...props}>
@@ -39,7 +89,21 @@ export const SocialPostAdd = (props) => {
               multiline
               placeholder="What's on your mind"
               rows={3}
+              onChange={handleChange}
+              onKeyUp={handleKeyUp}
+              value={body}
             />
+
+            {attachment && ( // Display the selected image
+              <Box mt={2}>
+                <img
+                  src={URL.createObjectURL(attachment)}
+                  alt="Selected Image"
+                  style={{ maxWidth: "100%", maxHeight: "200px" }}
+                />
+              </Box>
+            )}
+
             <Stack
               alignItems="center"
               direction="row"
@@ -48,12 +112,12 @@ export const SocialPostAdd = (props) => {
             >
               {smUp && (
                 <Stack alignItems="center" direction="row" spacing={1}>
-                  <IconButton>
+                  <IconButton onClick={handleAttach}>
                     <SvgIcon>
                       <Image01Icon />
                     </SvgIcon>
                   </IconButton>
-                  <IconButton>
+                  <IconButton onClick={handleAttach}>
                     <SvgIcon>
                       <Attachment01Icon />
                     </SvgIcon>
@@ -68,6 +132,12 @@ export const SocialPostAdd = (props) => {
                       <FaceSmileIcon />
                     </SvgIcon>
                   </IconButton>
+                  <input
+                    hidden
+                    ref={fileInputRef}
+                    type="file"
+                    onChange={handleFileChange} // Handle file changes
+                  />
                 </Stack>
               )}
               <div>

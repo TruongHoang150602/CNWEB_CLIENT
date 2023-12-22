@@ -71,9 +71,9 @@ export const ChatProvider = (props) => {
   // Example: Function to fetch chat history
   const getAllChatsForUser = useCallback(async (userId) => {
     try {
-      const chatList = await getAllChatsForUserAPI(userId);
+      const chatlist = await getAllChatsForUserAPI(userId);
       const chatListWithParticipants = await Promise.all(
-        chatList.map(async (chat) => {
+        chatlist.map(async (chat) => {
           const participants = await getParticipantsAPI(chat.participantIds);
           return {
             ...chat,

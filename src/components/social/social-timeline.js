@@ -11,17 +11,7 @@ export const SocialTimeline = (props) => {
     <div {...other}>
       <Grid container spacing={4}>
         <Grid lg={4} xs={12}>
-          <SocialAbout
-            currentCity={profile.currentCity}
-            currentJobCompany={profile.currentJobCompany}
-            currentJobTitle={profile.currentJobTitle}
-            email={profile.email}
-            originCity={profile.originCity}
-            previousJobCompany={profile.previousJobCompany}
-            previousJobTitle={profile.previousJobTitle}
-            profileProgress={profile.profileProgress}
-            quote={profile.quote}
-          />
+          <SocialAbout profile={profile} />
         </Grid>
         <Grid lg={8} xs={12}>
           <Stack spacing={3}>
@@ -48,5 +38,5 @@ export const SocialTimeline = (props) => {
 
 SocialTimeline.propTypes = {
   posts: PropTypes.array,
-  profile: PropTypes.object.isRequired,
+  profile: PropTypes.object,
 };

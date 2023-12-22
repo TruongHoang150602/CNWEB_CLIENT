@@ -12,7 +12,7 @@ export default function Page() {
       if (!user) {
         router.push("/auth/login");
       } else {
-        router.push("/chat");
+        router.push("/social");
       }
     }
   }, [user, router]);

@@ -22,8 +22,8 @@ export default function QuestionsBoard(props) {
   const checkCorrect = (options) => {
     return options.every((option) => {
       return (
-        (option.isSelected && option.option.is_correct) ||
-        (!option.isSelected && !option.option.is_correct)
+        (option.isSelected && option.is_correct) ||
+        (!option.isSelected && !option.is_correct)
       );
     });
   };
@@ -60,7 +60,7 @@ export default function QuestionsBoard(props) {
         <Typography>Question Palette</Typography>
         <Grid container spacing={1} pt={2}>
           {userAnswer.map((answer, index) => (
-            <Grid item xs={1.5} key={index}>
+            <Grid item xs={2} key={index}>
               <Button
                 className={`QuestionPalette ${
                   (currentQuestion == index && "currentQuestion") ||

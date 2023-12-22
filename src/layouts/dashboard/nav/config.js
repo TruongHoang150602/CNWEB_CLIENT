@@ -14,7 +14,7 @@ const icon = (name) => (
 const navConfig = [
   {
     title: "home",
-    path: "/blog",
+    path: "/social",
     icon: icon("ic_dashboard"),
   },
   {

@@ -52,7 +52,7 @@ export default function Quizz(props) {
           disabled={currentQuestion == 0}
         >
           <SVGIcon
-            src="/icon/previousIcon.svg"
+            src="/assets/icons/question/previousIcon.svg"
             sx={{ width: 6, height: 10, marginRight: "6px" }}
           />
           Previous
@@ -64,7 +64,7 @@ export default function Quizz(props) {
         >
           Next
           <SVGIcon
-            src="/icon/next.svg"
+            src="/assets/icons/question/next.svg"
             sx={{ width: 6, height: 10, marginLeft: "6px" }}
           />
         </Button>

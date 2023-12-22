@@ -22,7 +22,7 @@ const Page = (props) => {
   }, [dispatch]);
 
   return (
-    <Container className="main" maxWidth="lg">
+    <Container maxWidth="lg" height="100vh">
       <Grid container spacing={3}>
         {testList.map((test) => (
           <Grid item xs={3} key={test._id}>

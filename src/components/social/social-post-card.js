@@ -1,9 +1,9 @@
-import { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { formatDistanceToNowStrict } from 'date-fns';
-import ClockIcon from '@untitled-ui/icons-react/build/esm/Clock';
-import HeartIcon from '@untitled-ui/icons-react/build/esm/Heart';
-import Share07Icon from '@untitled-ui/icons-react/build/esm/Share07';
+import { useCallback, useState } from "react";
+import PropTypes from "prop-types";
+import { formatDistanceToNowStrict, parseISO } from "date-fns";
+import ClockIcon from "@untitled-ui/icons-react/build/esm/Clock";
+import HeartIcon from "@untitled-ui/icons-react/build/esm/Heart";
+import Share07Icon from "@untitled-ui/icons-react/build/esm/Share07";
 import {
   Avatar,
   Box,
@@ -17,10 +17,11 @@ import {
   Stack,
   SvgIcon,
   Tooltip,
-  Typography
-} from '@mui/material';
-import { SocialComment } from './social-comment';
-import { SocialCommentAdd } from './social-comment-add';
+  Typography,
+} from "@mui/material";
+import { SocialComment } from "./social-comment";
+import { SocialCommentAdd } from "./social-comment-add";
+import { useAuth } from "hook/useAuth";
 
 export const SocialPostCard = (props) => {
   const {
@@ -28,14 +29,15 @@ export const SocialPostCard = (props) => {
     authorName,
     comments,
     createdAt,
-    isLiked: isLikedProp,
-    likes: likesProp,
-    media,
-    message,
+    likedList,
+    attachment,
+    content,
     ...other
   } = props;
-  const [isLiked, setIsLiked] = useState(isLikedProp);
-  const [likes, setLikes] = useState(likesProp);
+  const { user } = useAuth();
+
+  const [isLiked, setIsLiked] = useState(likedList.includes(user.id));
+  const [likes, setLikes] = useState(likedList.length);
 
   const handleLike = useCallback(() => {
     setIsLiked(true);
@@ -50,70 +52,47 @@ export const SocialPostCard = (props) => {
   return (
     <Card {...other}>
       <CardHeader
-        avatar={(
-          <Avatar
-            component="a"
-            href="#"
-            src={authorAvatar}
-          />
-        )}
+        avatar={<Avatar component="a" href="#" src={authorAvatar} />}
         disableTypography
-        subheader={(
-          <Stack
-            alignItems="center"
-            direction="row"
-            spacing={1}
-          >
+        subheader={
+          <Stack alignItems="center" direction="row" spacing={1}>
             <SvgIcon color="action">
               <ClockIcon />
             </SvgIcon>
-            <Typography
-              color="text.secondary"
-              variant="caption"
-            >
-              {formatDistanceToNowStrict(createdAt)}
-              {' '}
-              ago
+            <Typography color="text.secondary" variant="caption">
+              {formatDistanceToNowStrict(parseISO(createdAt))} ago
             </Typography>
           </Stack>
-        )}
-        title={(
+        }
+        title={
           <Stack
             alignItems="center"
             direction="row"
             spacing={0.5}
             sx={{ mb: 1 }}
           >
-            <Link
-              color="text.primary"
-              href="#"
-              variant="subtitle2"
-            >
+            <Link color="text.primary" href="#" variant="subtitle2">
               {authorName}
             </Link>
-            <Typography variant="body2">
-              updated her status
-            </Typography>
+            <Typography variant="body2">updated her status</Typography>
           </Stack>
-        )}
+        }
       />
       <Box
         sx={{
           pb: 2,
-          px: 3
+          px: 3,
         }}
       >
-        <Typography variant="body1">
-          {message}
-        </Typography>
-        {media && (
+        <Typography variant="body1">{content}</Typography>
+        {attachment && (
           <Box sx={{ mt: 3 }}>
             <CardActionArea>
               <CardMedia
-                image={media}
+                image={attachment}
                 sx={{
-                  backgroundPosition: 'top',
-                  height: 500
+                  backgroundPosition: "top",
+                  height: 500,
                 }}
               />
             </CardActionArea>
@@ -127,41 +106,33 @@ export const SocialPostCard = (props) => {
           sx={{ mt: 2 }}
         >
           <div>
-            <Stack
-              alignItems="center"
-              direction="row"
-            >
-              {isLiked
-                ? (
-                  <Tooltip title="Unlike">
-                    <IconButton onClick={handleUnlike}>
-                      <SvgIcon
-                        sx={{
-                          color: 'error.main',
-                          '& path': {
-                            fill: (theme) => theme.palette.error.main,
-                            fillOpacity: 1
-                          }
-                        }}
-                      >
-                        <HeartIcon />
-                      </SvgIcon>
-                    </IconButton>
-                  </Tooltip>
-                )
-                : (
-                  <Tooltip title="Like">
-                    <IconButton onClick={handleLike}>
-                      <SvgIcon>
-                        <HeartIcon />
-                      </SvgIcon>
-                    </IconButton>
-                  </Tooltip>
-                )}
-              <Typography
-                color="text.secondary"
-                variant="subtitle2"
-              >
+            <Stack alignItems="center" direction="row">
+              {isLiked ? (
+                <Tooltip title="Unlike">
+                  <IconButton onClick={handleUnlike}>
+                    <SvgIcon
+                      sx={{
+                        color: "error.main",
+                        "& path": {
+                          fill: (theme) => theme.palette.error.main,
+                          fillOpacity: 1,
+                        },
+                      }}
+                    >
+                      <HeartIcon />
+                    </SvgIcon>
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Like">
+                  <IconButton onClick={handleLike}>
+                    <SvgIcon>
+                      <HeartIcon />
+                    </SvgIcon>
+                  </IconButton>
+                </Tooltip>
+              )}
+              <Typography color="text.secondary" variant="subtitle2">
                 {likes}
               </Typography>
             </Stack>
@@ -182,7 +153,7 @@ export const SocialPostCard = (props) => {
               authorName={comment.author.name}
               createdAt={comment.createdAt}
               key={comment.id}
-              message={comment.message}
+              content={comment.content}
             />
           ))}
         </Stack>
@@ -197,9 +168,8 @@ SocialPostCard.propTypes = {
   authorAvatar: PropTypes.string.isRequired,
   authorName: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
-  createdAt: PropTypes.number.isRequired,
-  isLiked: PropTypes.bool.isRequired,
-  likes: PropTypes.number.isRequired,
-  media: PropTypes.string,
-  message: PropTypes.string.isRequired
+  createdAt: PropTypes.string.isRequired,
+  likedList: PropTypes.array.isRequired,
+  attachment: PropTypes.string,
+  content: PropTypes.string.isRequired,
 };

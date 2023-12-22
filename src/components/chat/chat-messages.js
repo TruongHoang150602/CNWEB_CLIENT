@@ -52,6 +52,7 @@ export const ChatMessages = (props) => {
             createdAt={message.createdAt}
             key={index}
             position={author.isUser ? "right" : "left"}
+            status={message.status}
           />
         );
       })}

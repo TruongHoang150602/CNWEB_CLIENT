@@ -5,6 +5,7 @@ import {
   doc,
   getDocs,
   onSnapshot,
+  orderBy,
   query,
   updateDoc,
   where,
@@ -61,11 +62,12 @@ export const listenForChatUpdates = (userId, updateCallback) => {
 export const sendMessageAPI = async (chatId, message) => {
   try {
     const chatDocRef = doc(db, "chats", chatId);
-
-    // Update the 'messages' array in the document with the new message
+    message.status = "sent";
+    console.log(message);
     await updateDoc(chatDocRef, {
       messages: arrayUnion(message),
       unreadCount: 1,
+      updatedAt: new Date().getTime(),
     });
 
     console.log("Message sent successfully!");
@@ -78,8 +80,7 @@ export const sendMessageAPI = async (chatId, message) => {
 export const createNewChatAPI = async (newChat) => {
   try {
     const chatsCollectionRef = collection(db, "chats");
-
-    // Thêm một chat mới vào collection 'chats'
+    newChat.messages[0].status = "sent";
     await addDoc(chatsCollectionRef, newChat);
 
     console.log("Chat created successfully!");

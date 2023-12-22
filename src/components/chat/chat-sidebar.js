@@ -21,7 +21,7 @@ import { useAuth } from "hook/useAuth";
 
 export const ChatSidebar = (props) => {
   const { chatId, container, onClose, open, ...other } = props;
-  const chatList = useSelector(selectChatList);
+  const chatlist = useSelector(selectChatList);
   const dispatch = useDispatch();
   const { user } = useAuth();
   const router = useRouter();
@@ -120,7 +120,7 @@ export const ChatSidebar = (props) => {
               p: 2,
             }}
           >
-            {chatList.map((chat) => (
+            {chatlist.map((chat) => (
               <ChatThreadItem
                 active={chat.id === chatId}
                 key={chat.id}
@@ -187,7 +187,7 @@ export const ChatSidebar = (props) => {
 };
 
 ChatSidebar.propTypes = {
-  chatList: PropTypes.array,
+  chatlist: PropTypes.array,
   container: PropTypes.any,
   onClose: PropTypes.func,
   open: PropTypes.bool,

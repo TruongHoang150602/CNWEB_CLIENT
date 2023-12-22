@@ -18,51 +18,46 @@ import {
   Tabs,
   Tooltip,
   Typography,
+  getFabUtilityClass,
 } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
-import { Layout as DashboardLayout } from "layouts/dashboard";
-import { SocialTimeline } from "sections/dashboard/social/social-timeline";
 
-const useProfile = () => {
+import { getFullUserInfoIdAPI } from "pages/api/user";
+import { getPostByUserIdAPI } from "pages/api/social";
+import { useAuth } from "hook/useAuth";
+import DashboardLayout from "layouts/dashboard/DashboardLayout";
+import { SocialTimeline } from "components/social/social-timeline";
+
+const useProfile = (userId) => {
   const [profile, setProfile] = useState(null);
 
-  const getProfile = useCallback(async () => {
+  const getProfile = useCallback(async (userId) => {
     try {
-      const response = await socialApi.getProfile();
-
-      if (isMounted()) {
-        setProfile(response);
-      }
+      const response = await getFullUserInfoIdAPI(userId);
+      setProfile(response);
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, []);
 
-  useEffect(
-    () => {
-      getProfile();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  useEffect(() => {
+    getProfile(userId);
+  }, []);
 
   return profile;
 };
 
-const usePosts = () => {
+const usePosts = (userId) => {
   const [posts, setPosts] = useState([]);
 
-  const getPosts = useCallback(async () => {
+  const getPosts = useCallback(async (userId) => {
     try {
-      const response = await socialApi.getPosts();
-
-      if (isMounted()) {
-        setPosts(response);
-      }
+      const response = await getPostByUserIdAPI(userId);
+      setPosts(response);
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, []);
 
   useEffect(
     () => {
@@ -76,8 +71,9 @@ const usePosts = () => {
 };
 
 export const SocialProfile = () => {
-  const profile = useProfile();
-  const posts = usePosts();
+  const { user } = useAuth();
+  const profile = useProfile(user.id);
+  const posts = usePosts(user.id);
 
   if (!profile) {
     return null;
@@ -92,13 +88,13 @@ export const SocialProfile = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8,
+          py: 4,
         }}
       >
         <Container maxWidth="lg">
           <div>
             <Box
-              style={{ backgroundImage: `url("/background/subtle-prism.svg")` }}
+              style={{ backgroundImage: `url("/background/cover2.jpeg")` }}
               sx={{
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -158,7 +154,7 @@ export const SocialProfile = () => {
                 />
                 <div>
                   <Typography color="text.secondary" variant="overline">
-                    {profile.bio}
+                    {profile.description}
                   </Typography>
                   <Typography variant="h6">{profile.name}</Typography>
                 </div>

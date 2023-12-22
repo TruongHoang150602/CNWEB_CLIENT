@@ -8,6 +8,8 @@ import { ChatThreadToolbar } from "./chat-thread-toolbar";
 import { useAuth } from "hook/useAuth";
 import { useDispatch } from "react-redux";
 import { createNewChatAPI, sendMessageAPI } from "pages/api/chat";
+import { createResourceId } from "utils/create-resource-id";
+import { receiveMessages, sendChat } from "redux/slices/chat";
 
 const useMessagesScroll = (messages) => {
   const messagesRef = useRef(null);
@@ -45,25 +47,29 @@ export const ChatThread = (props) => {
   const { currentChat, ...other } = props;
 
   const { user } = useAuth();
+  const dispatch = useDispatch();
   const { messagesRef } = useMessagesScroll(currentChat.messages);
   // const dispatch = useDispatch();
 
   const handleSend = async (body) => {
     const message = {
+      status: "sending",
       body: body,
-      attachments: [],
+      attachment: [],
       contentType: "text",
       createdAt: new Date().getTime(),
       authorId: user.id,
     };
-    console.log(currentChat);
-    if (currentChat.id) sendMessageAPI(currentChat.id, message);
-    else {
+    if (currentChat.id) {
+      // dispatch(sendChat({ message }));
+      sendMessageAPI(currentChat.id, message);
+    } else {
       const newChat = {
         type: currentChat.type,
         participantIds: currentChat.participantIds,
         messages: [message],
         unreadCount: 1,
+        updatedAt: new Date().getTime(),
       };
       createNewChatAPI(newChat);
     }

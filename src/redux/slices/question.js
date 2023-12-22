@@ -89,9 +89,9 @@ const questionSlice = createSlice({
     },
 
     changeTab(state, action) {
-      const { testId, type } = action.payload;
+      const { userId, testId, type } = action.payload;
       state.type = type;
-      getUserResult({ testId, type });
+      getUserResult({ userId, testId, type });
     },
 
     submit(state, action) {

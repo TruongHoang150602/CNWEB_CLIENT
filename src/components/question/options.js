@@ -35,27 +35,26 @@ export default function Options(props) {
               <Button
                 className={`answerOptionBtn ${
                   (!showAnswer && option.isSelected && "choosenOptionBtn") ||
-                  (showAnswer &&
-                    option.option.is_correct &&
-                    "correctOptionBtn") ||
-                  (option.isSelected &&
-                    !option.option.is_correct &&
-                    "wrongOptionBtn")
+                  (showAnswer && option.is_correct && "correctOptionBtn") ||
+                  (option.isSelected && !option.is_correct && "wrongOptionBtn")
                 }`}
                 value={option._id}
                 onClick={() => {
-                  onClickOption(option.option._id);
+                  onClickOption(option._id);
                 }}
                 disabled={showAnswer}
               >
                 <SVGIcon
                   src={
-                    (!showAnswer && option.isSelected && "/icon/choose.svg") ||
+                    (!showAnswer &&
+                      option.isSelected &&
+                      "/assets/icons/question/choose.svg") ||
                     (showAnswer &&
-                      ((option.option.is_correct && "/icon/correct.svg") ||
+                      ((option.is_correct &&
+                        "/assets/icons/question/correct.svg") ||
                         (option.isSelected &&
-                          !option.option.is_correct &&
-                          "/icon/wrong.svg")))
+                          !option.is_correct &&
+                          "/assets/icons/question/wrong.svg")))
                   }
                   sx={{ width: "12px", height: "12px" }}
                 />
@@ -72,13 +71,13 @@ export default function Options(props) {
                   textAlign: "left",
                 }}
               >
-                {option.option.option_text}
+                {option.option_text}
               </Typography>
             </Grid>
           </Grid>
           <Box
             className={`explanation ${
-              showAnswer && option.option.is_correct && "show-explanation"
+              showAnswer && option.is_correct && "show-explanation"
             }`}
           >
             <Button

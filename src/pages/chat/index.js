@@ -34,10 +34,9 @@ import DashboardLayout from "layouts/dashboard/DashboardLayout";
 const Page = () => {
   const rootRef = useRef(null);
   const { user } = useAuth();
-  // const dispatch = useDispatch();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
-  const chatList = useSelector(selectChatList);
+  const chatlist = useSelector(selectChatList);
   const currentChat = useSelector(selectCurrentChat);
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
@@ -80,7 +79,7 @@ const Page = () => {
           flex: "1 1 auto",
           overflow: "hidden",
           position: "relative",
-          height: "calc(100vh - 140px)",
+          height: "calc(100vh - 150px)",
           borderRadius: "20px",
         }}
       >
@@ -99,7 +98,7 @@ const Page = () => {
             container={rootRef.current}
             onClose={onOpenCloseSidebar}
             open={isOpenSidebar}
-            chatList={chatList}
+            chatlist={chatlist}
             chatId={currentChat?.id}
           />
           <ChatContainer open={isOpenSidebar}>
