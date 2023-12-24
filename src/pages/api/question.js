@@ -8,7 +8,7 @@ export const getUserResultAPI = async (userId, testId, type) => {
     });
     return response;
   } catch (error) {
-    throw new Error("Failed to fetch user result data from API");
+    console.log("Failed to fetch user result data from API");
   }
 };
 
@@ -19,7 +19,7 @@ export const createNewUserResultAPI = async (userId, testId, type) => {
     });
     return response;
   } catch (error) {
-    throw new Error("Failed to fetch test data from API");
+    console.log("Failed to fetch test data from API");
   }
 };
 
@@ -36,6 +36,6 @@ export const updateUserResultAPI = async (
     });
     return response;
   } catch (error) {
-    throw new Error("Failed to update user result data");
+    console.log("Failed to update user result data");
   }
 };

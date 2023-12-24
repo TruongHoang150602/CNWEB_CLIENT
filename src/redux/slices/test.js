@@ -9,7 +9,7 @@ export const getAllTestAPI = createAsyncThunk("test/getTests", async () => {
     console.log(data);
     return data;
   } catch (error) {
-    throw new Error("Failed to fetch test data from API");
+    console.log("Failed to fetch test data from API");
   }
 });
 

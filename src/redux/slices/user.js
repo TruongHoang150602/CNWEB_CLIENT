@@ -10,7 +10,7 @@ export const getUsersAPI = createAsyncThunk("user/getUsers", async () => {
     return response.data.sort((a, b) => b.highScore - a.highScore);
     // return response.data;
   } catch (error) {
-    throw new Error("Failed to fetch user data from API");
+    console.log("Failed to fetch user data from API");
   }
 });
 
@@ -24,7 +24,7 @@ export const createUserAPI = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      throw new Error("Failed to create a new user");
+      console.log("Failed to create a new user");
     }
   }
 );

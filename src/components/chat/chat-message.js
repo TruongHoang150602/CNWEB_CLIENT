@@ -22,7 +22,9 @@ export const ChatMessage = (props) => {
     ...other
   } = props;
 
-  const ago = formatDistanceToNowStrict(createdAt);
+  const ago = createdAt
+    ? `${formatDistanceToNowStrict(createdAt)} ago`
+    : "sending";
 
   return (
     <Box
@@ -93,31 +95,9 @@ export const ChatMessage = (props) => {
               px: 2,
             }}
           >
-            {(status === "sent" && (
-              <Typography color="text.secondary" noWrap variant="caption">
-                {ago} ago
-              </Typography>
-            )) || (
-              <Typography
-                sx={{
-                  position: "relative",
-                  display: "inline-block",
-                  "::after": {
-                    content: '" ."',
-                    animation: "dots 1s infinite steps(4)",
-                  },
-                  "@keyframes dots": {
-                    "0%, 20%": { content: '"."' },
-                    "40%": { content: '" .."' },
-                    "60%": { content: '" ..."' },
-                    "80%, 100%": { content: '" ...."' },
-                  },
-                }}
-                color="text.secondary"
-                noWrap
-                variant="caption"
-              ></Typography>
-            )}
+            <Typography color="text.secondary" noWrap variant="caption">
+              {ago}
+            </Typography>
           </Box>
         </Box>
       </Stack>
@@ -130,6 +110,6 @@ ChatMessage.propTypes = {
   authorName: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   contentType: PropTypes.string.isRequired,
-  createdAt: PropTypes.number.isRequired,
+  createdAt: PropTypes.number,
   position: PropTypes.oneOf(["left", "right"]),
 };

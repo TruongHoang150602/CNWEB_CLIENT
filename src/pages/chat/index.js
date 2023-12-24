@@ -3,6 +3,7 @@ import Head from "next/head";
 import Menu01Icon from "@untitled-ui/icons-react/build/esm/Menu01";
 import {
   Box,
+  Button,
   CircularProgress,
   Divider,
   IconButton,
@@ -28,7 +29,6 @@ import { Container } from "@untitled-ui/icons-react";
 import { ChatSidebar } from "components/chat/chat-sidebar";
 import { useAuth } from "hook/useAuth";
 import { listenForChatUpdates } from "pages/api/chat";
-import { useAppDispatch } from "hook/appHooks";
 import DashboardLayout from "layouts/dashboard/DashboardLayout";
 
 const Page = () => {
@@ -68,6 +68,8 @@ const Page = () => {
     dispatch(openOrCloseSidebar());
   };
 
+  console.log(currentChat);
+
   return (
     <>
       <Head>
@@ -80,6 +82,7 @@ const Page = () => {
           overflow: "hidden",
           position: "relative",
           height: "calc(100vh - 150px)",
+          minHeight: "500px",
           borderRadius: "20px",
         }}
       >

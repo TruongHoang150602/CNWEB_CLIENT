@@ -8,7 +8,7 @@ export const getRecentPostsAPI = async (page) => {
     });
     return response;
   } catch (error) {
-    throw new Error("Failed to fetch post data from API");
+    console.log("Failed to fetch post data from API");
   }
 };
 
@@ -19,7 +19,7 @@ export const getPostByUserIdAPI = async (userId) => {
     });
     return response;
   } catch (error) {
-    throw new Error("Failed to fetch post data from API");
+    console.log("Failed to fetch post data from API");
   }
 };
 
@@ -31,7 +31,7 @@ export const updatePostAPI = async (user) => {
     });
     return response;
   } catch (error) {
-    throw new Error("Failed to update user result data");
+    console.log("Failed to update user result data");
   }
 };
 
@@ -43,6 +43,6 @@ export const createNewPostAPI = async (newPost) => {
     });
     return response;
   } catch (error) {
-    throw new Error("Failed to update user result data");
+    console.log("Failed to update user result data");
   }
 };

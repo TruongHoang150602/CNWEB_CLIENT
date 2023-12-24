@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import XIcon from "@untitled-ui/icons-react/build/esm/X";
 import {
   Box,
+  Button,
   Drawer,
   IconButton,
   Stack,
@@ -18,6 +19,12 @@ import { getAllUsersAPI } from "pages/api/user";
 import { Scrollbar } from "components/scrollbar";
 import { searchChat, selectChat, selectChatList } from "redux/slices/chat";
 import { useAuth } from "hook/useAuth";
+import {
+  blockFirestoreConnection,
+  disconnectFirebase,
+  reconnectFirebase,
+  unblockFirestoreConnection,
+} from "firebaseConfig/firebase";
 
 export const ChatSidebar = (props) => {
   const { chatId, container, onClose, open, ...other } = props;
@@ -92,6 +99,13 @@ export const ChatSidebar = (props) => {
         >
           Group
         </Button> */}
+        <Button
+          onClick={() => {
+            blockFirestoreConnection();
+          }}
+        >
+          Disconnect
+        </Button>
         {!mdUp && (
           <IconButton onClick={onClose}>
             <SvgIcon>

@@ -10,7 +10,7 @@ export const getBlogsAPI = createAsyncThunk("blog/getBlogs", async () => {
     console.log(response);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to fetch blog data from API");
+    console.log("Failed to fetch blog data from API");
   }
 });
 

@@ -38,8 +38,6 @@ const usePosts = () => {
 const SocialFeed = () => {
   const { posts, createNewPost } = usePosts();
 
-  console.log(posts);
-
   return (
     <>
       <Head>

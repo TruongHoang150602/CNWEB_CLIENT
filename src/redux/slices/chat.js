@@ -50,6 +50,20 @@ const chatSlice = createSlice({
           }
           break;
 
+        case "removed":
+          const removedChatIndex = state.chatlist.findIndex(
+            (chat) => chat.id === updatedData.id
+          );
+
+          if (removedChatIndex !== -1) {
+            state.chatlist.splice(removedChatIndex, 1);
+          }
+
+          if (state.currentChat && state.currentChat.id === updatedData.id) {
+            state.currentChat = null;
+            state.view = "blank";
+          }
+
         default:
           break;
       }
@@ -76,7 +90,8 @@ const chatSlice = createSlice({
     },
 
     sendChat(state, action) {
-      const { message } = action.payload;
+      const message = action.payload;
+      console.log(message);
       state.currentChat.messages.push(message);
     },
 
