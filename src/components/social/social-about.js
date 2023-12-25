@@ -47,7 +47,9 @@ export const SocialAbout = (props) => {
               <ListItemText
                 primary={
                   <Typography variant="subtitle2">
-                    {format(parseISO(profile.dob), "yyyy-MM-dd")}
+                    {profile.dob
+                      ? format(parseISO(profile.dob), "yyyy-MM-dd")
+                      : ""}
                   </Typography>
                 }
               />

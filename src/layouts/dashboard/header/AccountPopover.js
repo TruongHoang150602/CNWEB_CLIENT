@@ -13,32 +13,31 @@ import {
   Popover,
 } from "@mui/material";
 import { useAuth } from "hook/useAuth";
-import Iconify from "components/iconfy";
 import toast from "react-hot-toast";
-
-const MENU_OPTIONS = [
-  {
-    label: "Home",
-    icon: "eva:home-fill",
-    link: "/dashboard",
-  },
-  {
-    label: "Profile",
-    icon: "eva:person-fill",
-    link: "/social/",
-  },
-  {
-    label: "Settings",
-    icon: "eva:settings-2-fill",
-    link: "/setting",
-  },
-];
 
 const AccountPopover = () => {
   const router = useRouter();
   const [open, setOpen] = useState(null);
   const auth = useAuth();
   const { user } = useAuth();
+
+  const MENU_OPTIONS = [
+    {
+      label: "Home",
+      icon: "eva:home-fill",
+      link: "/dashboard",
+    },
+    {
+      label: "Profile",
+      icon: "eva:person-fill",
+      link: `/social/${user.id}`,
+    },
+    {
+      label: "Settings",
+      icon: "eva:settings-2-fill",
+      link: "/setting",
+    },
+  ];
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);

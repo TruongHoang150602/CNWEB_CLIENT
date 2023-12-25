@@ -38,8 +38,6 @@ export const SocialPostCard = (props) => {
   } = props;
   const { user } = useAuth();
 
-  console.log(postId);
-
   const [isLiked, setIsLiked] = useState(likedList.includes(user.id));
   const [likes, setLikes] = useState(likedList.length);
 

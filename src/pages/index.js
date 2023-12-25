@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Typography } from "@mui/material";
+import { CircularProgress, Container } from "@mui/material";
 import { useAuth } from "hook/useAuth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -17,7 +17,6 @@ export default function Page() {
     }
   }, [user, router]);
 
-  console.log(user);
   return (
     <Container
       disableGutters

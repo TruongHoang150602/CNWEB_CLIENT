@@ -18,13 +18,12 @@ import {
 import { blueGrey } from "@mui/material/colors";
 import { getFullUserInfoIdAPI } from "pages/api/user";
 import { getPostByUserIdAPI } from "pages/api/social";
-import { useAuth } from "hook/useAuth";
 import DashboardLayout from "layouts/dashboard/DashboardLayout";
 import { SocialTimeline } from "components/social/social-timeline";
 import { useRouter } from "next/router";
 
 const useProfile = (userId) => {
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState({});
 
   const getProfile = useCallback(async (userId) => {
     try {
@@ -56,7 +55,7 @@ const usePosts = (userId) => {
 
   useEffect(
     () => {
-      getPosts();
+      getPosts(userId);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []

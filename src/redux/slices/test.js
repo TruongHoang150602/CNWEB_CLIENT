@@ -1,13 +1,13 @@
 // slices/testSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { GET } from "utils/url";
 
 export const getAllTestAPI = createAsyncThunk("test/getTests", async () => {
   try {
-    const response = await axios.get("http://localhost:3001/tests");
-    const data = response.data;
-    console.log(data);
-    return data;
+    const response = await GET({
+      url: "/tests",
+    });
+    return response;
   } catch (error) {
     console.log("Failed to fetch test data from API");
   }

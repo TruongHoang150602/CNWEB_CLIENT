@@ -11,9 +11,6 @@ const AuthGuard = ({ children }) => {
 
   const check = useCallback(() => {
     if (!isAuthenticated) {
-      const searchParams = new URLSearchParams({
-        returnTo: globalThis.location.href,
-      }).toString();
       router.replace("/auth/login");
     } else {
       setChecked(true);

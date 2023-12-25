@@ -22,7 +22,11 @@ export const SocialComment = (props) => {
         }}
       >
         <Stack alignItems="center" direction="row" spacing={1}>
-          <Link color="text.primary" href="#" variant="subtitle2">
+          <Link
+            color="text.primary"
+            href={`/social/${authorId}`}
+            variant="subtitle2"
+          >
             {authorName}
           </Link>
           <Box sx={{ flexGrow: 1 }} />
