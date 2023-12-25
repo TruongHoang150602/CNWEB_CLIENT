@@ -53,8 +53,6 @@ const Page = (props) => {
     dispatch(getUserResult({ userId: user.id, testId, type }));
   }, [dispatch, testId, type, user.id]);
 
-  console.log(userAnswer);
-
   if (isLoading) {
     return (
       <Container

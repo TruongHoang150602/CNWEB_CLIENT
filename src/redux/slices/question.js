@@ -1,6 +1,6 @@
 // slices/questionSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserResult } from "thunk/question";
+import { createNewUserResult, getUserResult } from "thunk/question";
 import {
   checkSufficientQuestions,
   chooseOptionFuntion,
@@ -130,11 +130,28 @@ const questionSlice = createSlice({
       .addCase(getUserResult.fulfilled, (state, action) => {
         state.isLoading = false;
         const userResult = action.payload;
-        console.log(userResult);
         state.userAnswer = userResult.answers;
         state.numberQuestion = state.userAnswer.length;
+        state.currentQuestion = null;
+        state.isSubmitted = false;
       })
       .addCase(getUserResult.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(createNewUserResult.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(createNewUserResult.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const userResult = action.payload;
+        state.userAnswer = userResult.answers;
+        state.numberQuestion = state.userAnswer.length;
+        state.currentQuestion = null;
+        state.isSubmitted = false;
+      })
+      .addCase(createNewUserResult.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
       });

@@ -62,7 +62,7 @@ export default function QuestionsBoard(props) {
         <Grid container spacing={1} pt={2}>
           {userAnswer.map((answer, index) => (
             <Grid item xs={2} key={index}>
-              <Button
+              <button
                 className={`${styles.questionPalette} ${
                   (currentQuestion === index && styles.currentQuestion) ||
                   (answer.showAnswer &&
@@ -80,7 +80,7 @@ export default function QuestionsBoard(props) {
                 disabled={currentQuestion == null}
               >
                 {index + 1}
-              </Button>
+              </button>
             </Grid>
           ))}
 

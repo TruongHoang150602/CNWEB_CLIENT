@@ -47,7 +47,7 @@ export default function Quizz(props) {
       )}
 
       <Box sx={{ position: "absolute", bottom: "30px", left: "60px" }}>
-        <Button
+        <button
           className={styles.moveQuestionBtn}
           onClick={onClickPreBtn}
           disabled={currentQuestion == 0}
@@ -57,8 +57,8 @@ export default function Quizz(props) {
             sx={{ width: 6, height: 10, marginRight: "6px" }}
           />
           Previous
-        </Button>
-        <Button
+        </button>
+        <button
           className={`${styles.moveQuestionBtn} ${styles.nextQuestionBtn}`}
           onClick={onClickNextBtn}
           disabled={currentQuestion == userAnswer.length - 1}
@@ -68,7 +68,7 @@ export default function Quizz(props) {
             src="/assets/icons/question/next.svg"
             sx={{ width: 6, height: 10, marginLeft: "6px" }}
           />
-        </Button>
+        </button>
       </Box>
     </Box>
   );

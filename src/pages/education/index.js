@@ -14,8 +14,8 @@ import DashboardLayout from "layouts/dashboard/DashboardLayout";
 const Page = (props) => {
   const dispatch = useDispatch();
   const testList = useSelector(selectTestList);
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
+  // const isLoading = useSelector(selectIsLoading);
+  // const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(getAllTestAPI());
@@ -27,7 +27,15 @@ const Page = (props) => {
         {testList.map((test) => (
           <Grid item xs={3} key={test._id}>
             <Link href={`/education/` + test._id}>
-              <Box className="test">
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "130px",
+                  padding: "15px",
+                  borderRadius: "15px",
+                  background: "url(/image/background-quizz.png)",
+                }}
+              >
                 <SVGIcon
                   src="/topic/physical-science.svg"
                   sx={{

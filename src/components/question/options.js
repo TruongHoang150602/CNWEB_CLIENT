@@ -29,7 +29,7 @@ export default function Options(props) {
         <Box key={index}>
           <Grid container alignItems="center" className={styles.answerOption}>
             <Grid item>
-              <Button
+              <button
                 className={`${styles.answerOptionBtn} ${
                   (!showAnswer &&
                     option.isSelected &&
@@ -61,7 +61,7 @@ export default function Options(props) {
                   }
                   sx={{ width: "12px", height: "12px" }}
                 />
-              </Button>
+              </button>
             </Grid>
             <Grid item>
               <Typography
