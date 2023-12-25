@@ -17,8 +17,8 @@ import {
 import { getInitials } from "utils/get-initials";
 import { useAuth } from "hook/useAuth";
 import { useCallback, useRef, useState } from "react";
-import { createNewPostAPI } from "pages/api/social";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 export const SocialPostAdd = (props) => {
   const { onPost } = props;
@@ -59,7 +59,7 @@ export const SocialPostAdd = (props) => {
     onPost?.(newPost);
     setBody("");
     setAttachment(null);
-  }, [body]);
+  }, [body, attachment, onPost, user]);
 
   const handleKeyUp = useCallback(
     (event) => {
@@ -96,10 +96,10 @@ export const SocialPostAdd = (props) => {
 
             {attachment && ( // Display the selected image
               <Box mt={2}>
-                <img
+                <Image
                   src={URL.createObjectURL(attachment)}
-                  alt="Selected Image"
-                  style={{ maxWidth: "100%", maxHeight: "200px" }}
+                  alt="/assets/icons/image.svg"
+                  height="200px"
                 />
               </Box>
             )}

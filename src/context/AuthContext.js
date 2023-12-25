@@ -9,7 +9,11 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "firebaseConfig/firebase";
-import { getFullUserInfoIdAPI, getUserByIdAPI } from "pages/api/user";
+import {
+  createNewUserAPI,
+  getFullUserInfoIdAPI,
+  getUserByIdAPI,
+} from "pages/api/user";
 
 var ActionType;
 (function (ActionType) {
@@ -52,7 +56,6 @@ export const AuthProvider = (props) => {
   const handleAuthStateChanged = useCallback(
     async (user) => {
       if (user) {
-        console.log(user);
         const detailUser = await getFullUserInfoIdAPI(user.uid);
 
         dispatch({
@@ -78,7 +81,10 @@ export const AuthProvider = (props) => {
     [dispatch]
   );
 
-  useEffect(() => onAuthStateChanged(auth, handleAuthStateChanged), []);
+  useEffect(
+    () => onAuthStateChanged(auth, handleAuthStateChanged),
+    [handleAuthStateChanged]
+  );
 
   const _signInWithEmailAndPassword = useCallback(async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password);
@@ -91,10 +97,19 @@ export const AuthProvider = (props) => {
   }, []);
 
   const _createUserWithEmailAndPassword = useCallback(
-    async (email, password) => {
-      await createUserWithEmailAndPassword(auth, email, password);
+    async (email, password, name) => {
+      const authUserCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = authUserCredential.user;
+      await createNewUserAPI(user.uid, name);
+
+      // Handle the authentication state change as you normally would
+      handleAuthStateChanged(user);
     },
-    []
+    [handleAuthStateChanged]
   );
 
   const _signOut = useCallback(async () => {

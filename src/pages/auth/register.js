@@ -23,6 +23,7 @@ import { Layout as AuthLayout } from "layouts/auth";
 import { useAuth } from "hook/useAuth";
 
 const initialValues = {
+  name: "",
   email: "",
   password: "",
   policy: true,
@@ -30,6 +31,7 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object({
+  name: Yup.string().max(255).required("Name is required"),
   email: Yup.string()
     .email("Must be a valid email")
     .max(255)
@@ -46,7 +48,12 @@ const Page = () => {
     validationSchema,
     onSubmit: async (values, helpers) => {
       try {
-        await createUserWithEmailAndPassword(values.email, values.password);
+        console.log(values);
+        await createUserWithEmailAndPassword(
+          values.email,
+          values.password,
+          values.name
+        );
 
         router.push("/");
       } catch (err) {
@@ -117,7 +124,7 @@ const Page = () => {
                   <Box
                     alt="Google"
                     component="img"
-                    src="/icon/google.svg"
+                    src="/assets/icons/google.svg"
                     sx={{ mr: 1 }}
                   />
                   Google
@@ -145,6 +152,16 @@ const Page = () => {
                 </Box>
               </Box>
               <Stack spacing={3}>
+                <TextField
+                  error={!!(formik.touched.name && formik.errors.name)}
+                  fullWidth
+                  helperText={formik.touched.name && formik.errors.name}
+                  label="Name"
+                  name="name"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                />
                 <TextField
                   error={!!(formik.touched.email && formik.errors.email)}
                   fullWidth

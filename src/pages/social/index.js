@@ -59,7 +59,7 @@ const usePosts = () => {
 
   useEffect(() => {
     getPosts();
-  }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getPosts]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   return { posts, createNewPost, addComment };
 };
@@ -84,6 +84,7 @@ const SocialFeed = () => {
             <SocialPostAdd onPost={createNewPost} />
             {posts.map((post) => (
               <SocialPostCard
+                key={post.id}
                 postId={post.id}
                 authorAvatar={post.author.avatar}
                 authorName={post.author.name}

@@ -44,9 +44,9 @@ const AccountPopover = () => {
     setOpen(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(null);
-  };
+  }, []);
 
   const handleSignOut = useCallback(async () => {
     try {
@@ -57,7 +57,7 @@ const AccountPopover = () => {
       console.error(err);
       toast.error("Something went wrong!");
     }
-  }, [router, handleClose]);
+  }, [router, handleClose, auth]);
 
   return (
     <>

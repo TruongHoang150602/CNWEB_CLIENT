@@ -23,8 +23,6 @@ import {
   selectIsOpenSideBar,
   selectView,
 } from "redux/slices/chat";
-// import { Layout as DashboardLayout } from "layouts/dashboard";
-
 import { Container } from "@untitled-ui/icons-react";
 import { ChatSidebar } from "components/chat/chat-sidebar";
 import { useAuth } from "hook/useAuth";
@@ -47,7 +45,7 @@ const Page = () => {
     const listener = listenForChatUpdates(user.id, (updatedData, type) => {
       dispatch(receiveMessages({ updatedData, type }));
     });
-  }, []);
+  }, [dispatch, user]);
 
   if (isLoading) {
     return (

@@ -50,4 +50,6 @@ RHFTextField.propTypes = {
   rules: PropTypes.object,
 };
 
+RHFTextField.displayName = "RHFTextField";
+
 export default RHFTextField;

@@ -63,9 +63,7 @@ const Page = () => {
     } catch (err) {
       console.error(err);
     }
-  }, []);
-
-  // usePageView();
+  }, [router, signInWithGoogle]);
 
   return (
     <>

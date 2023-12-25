@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { Tip } from "components/tip";
 
-export const ChatSidebarSearch = forwardRef((props, ref) => {
+const ChatSidebarSearch = forwardRef((props, ref) => {
   const {
     isFocused,
     onChange,
@@ -118,3 +118,7 @@ ChatSidebarSearch.propTypes = {
   query: PropTypes.string,
   results: PropTypes.array,
 };
+
+ChatSidebarSearch.displayName = "ChatSidebarSearch";
+
+export default ChatSidebarSearch;

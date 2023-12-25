@@ -12,26 +12,20 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { ChatSidebarSearch } from "./chat-sidebar-search";
 import { ChatThreadItem } from "./chat-thread-item";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsersAPI } from "pages/api/user";
 import { Scrollbar } from "components/scrollbar";
 import { searchChat, selectChat, selectChatList } from "redux/slices/chat";
 import { useAuth } from "hook/useAuth";
-import {
-  blockFirestoreConnection,
-  disconnectFirebase,
-  reconnectFirebase,
-  unblockFirestoreConnection,
-} from "firebaseConfig/firebase";
+import { blockFirestoreConnection } from "firebaseConfig/firebase";
+import ChatSidebarSearch from "./chat-sidebar-search";
 
 export const ChatSidebar = (props) => {
   const { chatId, container, onClose, open, ...other } = props;
   const chatlist = useSelector(selectChatList);
   const dispatch = useDispatch();
   const { user } = useAuth();
-  const router = useRouter();
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -75,12 +69,15 @@ export const ChatSidebar = (props) => {
       setSearchFocused(false);
       setSearchQuery("");
     },
-    [router]
+    [dispatch, user]
   );
 
-  const handleChatSelect = useCallback((chat) => {
-    dispatch(selectChat(chat));
-  });
+  const handleChatSelect = useCallback(
+    (chat) => {
+      dispatch(selectChat(chat));
+    },
+    [dispatch]
+  );
 
   const content = (
     <div>
@@ -88,17 +85,6 @@ export const ChatSidebar = (props) => {
         <Typography variant="h5" sx={{ flexGrow: 1 }}>
           Chats
         </Typography>
-        {/* <Button
-          onClick={() => {}}
-          startIcon={
-            <SvgIcon>
-              <PlusIcon />
-            </SvgIcon>
-          }
-          variant="contained"
-        >
-          Group
-        </Button> */}
         <Button
           onClick={() => {
             blockFirestoreConnection();

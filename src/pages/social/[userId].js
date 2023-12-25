@@ -37,7 +37,7 @@ const useProfile = (userId) => {
 
   useEffect(() => {
     getProfile(userId);
-  }, []);
+  }, [getProfile, userId]);
 
   return profile;
 };

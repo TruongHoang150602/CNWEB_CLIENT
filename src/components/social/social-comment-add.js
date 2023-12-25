@@ -40,7 +40,7 @@ export const SocialCommentAdd = (props) => {
     addComment(newComment, social_id);
     console.log(body);
     setBody("");
-  }, [body]);
+  }, [body, addComment, social_id, user]);
 
   const handleKeyUp = useCallback(
     (event) => {

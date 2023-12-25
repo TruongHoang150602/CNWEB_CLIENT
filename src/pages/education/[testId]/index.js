@@ -60,7 +60,7 @@ const Page = (props) => {
 
   useEffect(() => {
     dispatch(getUserResult({ userId: user.id, testId, type }));
-  }, [dispatch]);
+  }, [dispatch, testId, type, user.id]);
 
   console.log(userAnswer);
 

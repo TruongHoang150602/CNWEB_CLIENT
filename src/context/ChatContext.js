@@ -57,16 +57,13 @@ export const ChatProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // Example: Function to send a new message
-  const sendMessage = useCallback(
-    async (chatId, message) => {
-      try {
-        await sendMessageAPI(chatId, message);
-      } catch (error) {
-        console.error("Error sending message:", error);
-      }
-    },
-    [dispatch]
-  );
+  const sendMessage = useCallback(async (chatId, message) => {
+    try {
+      await sendMessageAPI(chatId, message);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  }, []);
 
   // Example: Function to fetch chat history
   const getAllChatsForUser = useCallback(async (userId) => {
@@ -92,17 +89,14 @@ export const ChatProvider = (props) => {
   }, []);
 
   // Example: Function to create a new chat
-  const createNewChat = useCallback(
-    async (message, participantIds) => {
-      try {
-        await createNewChatAPI(message, participantIds);
-        // Optionally, you can update the local state with the new chat
-      } catch (error) {
-        console.error("Error creating new chat:", error);
-      }
-    },
-    [dispatch]
-  );
+  const createNewChat = useCallback(async (message, participantIds) => {
+    try {
+      await createNewChatAPI(message, participantIds);
+      // Optionally, you can update the local state with the new chat
+    } catch (error) {
+      console.error("Error creating new chat:", error);
+    }
+  }, []);
 
   // Example: Function to listen for chat updates
   const listenForChatUpdates = useCallback(
@@ -152,7 +146,7 @@ export const ChatProvider = (props) => {
       });
       return listener;
     },
-    [dispatch, state.userChats]
+    [state.userChats]
   );
 
   // Return the context provider with the value

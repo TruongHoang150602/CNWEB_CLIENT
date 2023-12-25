@@ -44,6 +44,7 @@ export default function Result(props) {
           src={(isPass && "/image/pass.png") || "/image/fail.png"}
           width={315}
           height={200}
+          alt="/assets/icons/image.svg"
         />
 
         <Box>

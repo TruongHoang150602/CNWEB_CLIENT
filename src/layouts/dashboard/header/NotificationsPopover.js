@@ -22,6 +22,7 @@ import {
 import { createResourceId } from "utils/create-resource-id";
 import { Scrollbar } from "components/scrollbar";
 import Iconify from "components/iconfy";
+import Image from "next/image";
 
 // ----------------------------------------------------------------------
 
@@ -325,7 +326,7 @@ function renderContent(notification) {
   if (notification.type === "comment") {
     return {
       avatar: (
-        <img
+        <Image
           alt={notification.title}
           src="/assets/icons/ic_notification_chat.svg"
         />
@@ -336,7 +337,7 @@ function renderContent(notification) {
   if (notification.type === "chat_message") {
     return {
       avatar: (
-        <img
+        <Image
           alt={notification.title}
           src="/assets/icons/ic_notification_mail.svg"
         />

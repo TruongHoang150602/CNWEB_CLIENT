@@ -23,4 +23,6 @@ Iconify.propTypes = {
   icon: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 };
 
+Iconify.displayName = "Iconify";
+
 export default Iconify;

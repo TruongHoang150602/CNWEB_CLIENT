@@ -51,7 +51,7 @@ export const createNewUserAPI = async (userId, name) => {
   try {
     const response = await POST({
       url: `/users`,
-      params: { userId, name },
+      params: { id: userId, name: name },
     });
     return response;
   } catch (error) {

@@ -22,7 +22,7 @@ const AuthGuard = ({ children }) => {
 
   useEffect(() => {
     check();
-  }, []);
+  }, [check]);
 
   if (!checked) {
     return null;
@@ -35,11 +35,18 @@ AuthGuard.propTypes = {
   children: PropTypes.node,
 };
 
-const withAuthGuard = (Component) => (props) =>
-  (
+const withAuthGuard = (Component) => {
+  const WithAuthGuard = (props) => (
     <AuthGuard>
       <Component {...props} />
     </AuthGuard>
   );
+
+  WithAuthGuard.displayName = `withAuthGuard(${
+    Component.displayName || Component.name || "Component"
+  })`;
+
+  return WithAuthGuard;
+};
 
 export default withAuthGuard;
