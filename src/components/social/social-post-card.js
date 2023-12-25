@@ -25,6 +25,7 @@ import { useAuth } from "hook/useAuth";
 
 export const SocialPostCard = (props) => {
   const {
+    postId,
     authorAvatar,
     authorName,
     comments,
@@ -32,9 +33,12 @@ export const SocialPostCard = (props) => {
     likedList,
     attachment,
     content,
+    addComment,
     ...other
   } = props;
   const { user } = useAuth();
+
+  console.log(postId);
 
   const [isLiked, setIsLiked] = useState(likedList.includes(user.id));
   const [likes, setLikes] = useState(likedList.length);
@@ -50,7 +54,7 @@ export const SocialPostCard = (props) => {
   }, []);
 
   return (
-    <Card {...other}>
+    <Card key={postId} {...other}>
       <CardHeader
         avatar={<Avatar component="a" href="#" src={authorAvatar} />}
         disableTypography
@@ -149,6 +153,7 @@ export const SocialPostCard = (props) => {
         <Stack spacing={3}>
           {comments.map((comment) => (
             <SocialComment
+              authorId={comment.author.id}
               authorAvatar={comment.author.avatar}
               authorName={comment.author.name}
               createdAt={comment.createdAt}
@@ -158,7 +163,7 @@ export const SocialPostCard = (props) => {
           ))}
         </Stack>
         <Divider sx={{ my: 3 }} />
-        <SocialCommentAdd />
+        <SocialCommentAdd addComment={addComment} social_id={postId} />
       </Box>
     </Card>
   );

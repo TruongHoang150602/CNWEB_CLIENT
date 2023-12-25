@@ -11,8 +11,7 @@ import Searchbar from "./Searchbar";
 import LanguagePopover from "./LanguagePopover";
 import AccountPopover from "./AccountPopover";
 import { useAuth } from "hook/useAuth";
-import { NotificationsPopover } from "../notifications-button/notifications-popover";
-// import NotificationsPopover from "./NotificationsPopover";
+import NotificationsPopover from "./NotificationsPopover";
 // ----------------------------------------------------------------------
 
 const NAV_WIDTH = 280;

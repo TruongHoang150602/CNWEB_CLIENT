@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import { Box, Container, Stack, Typography } from "@mui/material";
-import { createNewPostAPI, getRecentPostsAPI } from "pages/api/social";
+import {
+  addCommentAPI,
+  createNewPostAPI,
+  getRecentPostsAPI,
+} from "pages/api/social";
 import DashboardLayout from "layouts/dashboard/DashboardLayout";
 import { SocialPostCard } from "components/social/social-post-card";
 import { SocialPostAdd } from "components/social/social-post-add";
@@ -21,8 +25,33 @@ const usePosts = () => {
   const createNewPost = async (newPost) => {
     try {
       await createNewPostAPI(newPost);
-
       getPosts();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const addComment = async (newComment, social_id) => {
+    try {
+      console.log(social_id);
+      await addCommentAPI({
+        social_id: social_id,
+        user_id: newComment.author.id,
+        content: newComment.content,
+        attachment: null,
+      });
+      setPosts((prevPosts) => {
+        return prevPosts.map((post) => {
+          if (post.id === social_id) {
+            // Create a new post object with the updated comments array
+            return {
+              ...post,
+              comments: [...post.comments, newComment],
+            };
+          }
+          return post;
+        });
+      });
     } catch (err) {
       console.error(err);
     }
@@ -32,11 +61,11 @@ const usePosts = () => {
     getPosts();
   }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
 
-  return { posts, createNewPost };
+  return { posts, createNewPost, addComment };
 };
 
 const SocialFeed = () => {
-  const { posts, createNewPost } = usePosts();
+  const { posts, createNewPost, addComment } = usePosts();
 
   return (
     <>
@@ -55,7 +84,7 @@ const SocialFeed = () => {
             <SocialPostAdd onPost={createNewPost} />
             {posts.map((post) => (
               <SocialPostCard
-                key={post.id}
+                postId={post.id}
                 authorAvatar={post.author.avatar}
                 authorName={post.author.name}
                 comments={post.comments}
@@ -63,6 +92,7 @@ const SocialFeed = () => {
                 likedList={post.likedList}
                 attachment={post.attachment}
                 content={post.content}
+                addComment={addComment}
               />
             ))}
           </Stack>

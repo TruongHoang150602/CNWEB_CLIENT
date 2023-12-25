@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { alpha } from "@mui/material/styles";
@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useAuth } from "hook/useAuth";
 import Iconify from "components/iconfy";
+import toast from "react-hot-toast";
 
 const MENU_OPTIONS = [
   {
@@ -24,7 +25,7 @@ const MENU_OPTIONS = [
   {
     label: "Profile",
     icon: "eva:person-fill",
-    link: "/social/profile",
+    link: "/social/",
   },
   {
     label: "Settings",
@@ -36,7 +37,8 @@ const MENU_OPTIONS = [
 const AccountPopover = () => {
   const router = useRouter();
   const [open, setOpen] = useState(null);
-  const { auth, user } = useAuth();
+  const auth = useAuth();
+  const { user } = useAuth();
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -46,11 +48,16 @@ const AccountPopover = () => {
     setOpen(null);
   };
 
-  const handleSignOut = () => {
-    auth.signOut();
-    setOpen(null);
-    router.push("/auth/login");
-  };
+  const handleSignOut = useCallback(async () => {
+    try {
+      handleClose();
+      auth.signOut();
+      router.push("/auth/login");
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong!");
+    }
+  }, [router, handleClose]);
 
   return (
     <>

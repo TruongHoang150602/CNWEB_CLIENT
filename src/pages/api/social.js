@@ -46,3 +46,15 @@ export const createNewPostAPI = async (newPost) => {
     console.log("Failed to update user result data");
   }
 };
+
+export const addCommentAPI = async (newComment) => {
+  try {
+    const response = await POST({
+      url: `/social/comment`,
+      params: newComment,
+    });
+    return response;
+  } catch (error) {
+    console.log("Failed to add comment");
+  }
+};

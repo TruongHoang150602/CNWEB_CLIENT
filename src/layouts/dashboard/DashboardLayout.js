@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 //
 import Nav from "./nav";
 import Header from "./header";
+import withAuthGuard from "guards/auth-guard";
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +26,7 @@ const StyledRoot = styled("div")(({ theme }) => ({
 const Main = styled("div")(({ theme }) => ({
   flexGrow: 1,
   overflow: "auto",
-  minHeight: "100%",
+  minHeight: "100vh",
   paddingTop: APP_BAR_MOBILE + 24,
   paddingBottom: theme.spacing(10),
   paddingBottom: "30px",
@@ -39,7 +40,7 @@ const Main = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout(props) {
+const DashboardLayout = withAuthGuard((props) => {
   const { children } = props;
 
   const [open, setOpen] = useState(false);
@@ -51,4 +52,6 @@ export default function DashboardLayout(props) {
       <Main>{children}</Main>
     </StyledRoot>
   );
-}
+});
+
+export default DashboardLayout;

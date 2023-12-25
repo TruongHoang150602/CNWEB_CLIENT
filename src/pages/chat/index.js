@@ -68,8 +68,6 @@ const Page = () => {
     dispatch(openOrCloseSidebar());
   };
 
-  console.log(currentChat);
-
   return (
     <>
       <Head>

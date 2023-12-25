@@ -1,7 +1,5 @@
 import PropTypes from "prop-types";
-import { set, sub } from "date-fns";
-import { noCase } from "change-case";
-import { faker } from "@faker-js/faker";
+import { formatDistanceToNowStrict, set, sub } from "date-fns";
 import { useState } from "react";
 // @mui
 import {
@@ -20,35 +18,34 @@ import {
   ListItemAvatar,
   ListItemButton,
 } from "@mui/material";
-// utils
-import { fToNow } from "utils/formatTime";
 // components
-import Iconify from "components/iconify";
-import Scrollbar from "components/scrollbar";
+import { createResourceId } from "utils/create-resource-id";
+import { Scrollbar } from "components/scrollbar";
+import Iconify from "components/iconfy";
 
 // ----------------------------------------------------------------------
 
 const NOTIFICATIONS = [
   {
-    id: faker.datatype.uuid(),
-    title: "Your task is completed",
-    description: "waiting for reviewing",
-    avatar: null,
-    type: "order_placed",
+    id: createResourceId(),
+    title: "ABC",
+    description: "answered to your comment",
+    avatar: "/assets/images/avatars/avatar_4.jpg",
+    type: "comment",
     createdAt: set(new Date(), { hours: 10, minutes: 30 }),
     isUnRead: true,
   },
   {
-    id: faker.datatype.uuid(),
+    id: createResourceId(),
     title: "Hoàng Vân Trường",
-    description: "sent you a invite request to join",
+    description: "sent you a send a firend request",
     avatar: "/assets/images/avatars/avatar_3.jpg",
     type: "friend_interactive",
     createdAt: sub(new Date(), { hours: 12, minutes: 45 }),
     isUnRead: true,
   },
   // {
-  //   id: faker.datatype.uuid(),
+  //   id: createResourceId(),
   //   title: faker.name.fullName(),
   //   description: 'answered to your comment',
   //   avatar: '/assets/images/avatars/avatar_2.jpg',
@@ -57,29 +54,11 @@ const NOTIFICATIONS = [
   //   isUnRead: true,
   // },
   {
-    id: faker.datatype.uuid(),
-    title: "You have tasks that are due",
-    description: "2 tasks are due soon",
+    id: createResourceId(),
+    title: "",
+    description: "You have 2 messages waiting",
     avatar: null,
     type: "chat_message",
-    createdAt: sub(new Date(), { days: 3, hours: 3, minutes: 30 }),
-    isUnRead: false,
-  },
-  {
-    id: faker.datatype.uuid(),
-    title: "You have new mail",
-    description: "sent from Guido Padberg",
-    avatar: null,
-    type: "mail",
-    createdAt: sub(new Date(), { days: 5, hours: 3, minutes: 30 }),
-    isUnRead: false,
-  },
-  {
-    id: faker.datatype.uuid(),
-    title: "Task done",
-    description: "Your task is just accepted",
-    avatar: null,
-    type: "order_shipped",
     createdAt: sub(new Date(), { days: 3, hours: 3, minutes: 30 }),
     isUnRead: false,
   },
@@ -267,7 +246,7 @@ function NotificationItem({ notification }) {
                 icon="eva:clock-outline"
                 sx={{ mr: 0.5, width: 16, height: 16 }}
               />
-              {fToNow(notification.createdAt)}
+              {formatDistanceToNowStrict(notification.createdAt)}
             </Typography>
             {notification.type === "friend_interactive" && (
               <Box
@@ -337,39 +316,18 @@ function renderContent(notification) {
         variant="body2"
         sx={{ color: "text.secondary" }}
       >
-        &nbsp; {noCase(notification.description)}
+        {" "}
+        {notification.description}
       </Typography>
     </Typography>
   );
 
-  if (notification.type === "order_placed") {
+  if (notification.type === "comment") {
     return {
       avatar: (
         <img
           alt={notification.title}
-          src="/assets/icons/ic_notification_package.svg"
-        />
-      ),
-      title,
-    };
-  }
-  if (notification.type === "order_shipped") {
-    return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src="/assets/icons/hourglass-not-done.svg"
-        />
-      ),
-      title,
-    };
-  }
-  if (notification.type === "mail") {
-    return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src="/assets/icons/ic_notification_mail.svg"
+          src="/assets/icons/ic_notification_chat.svg"
         />
       ),
       title,
@@ -380,7 +338,7 @@ function renderContent(notification) {
       avatar: (
         <img
           alt={notification.title}
-          src="/assets/icons/ic_notification_chat.svg"
+          src="/assets/icons/ic_notification_mail.svg"
         />
       ),
       title,

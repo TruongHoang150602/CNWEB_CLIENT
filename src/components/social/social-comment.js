@@ -3,13 +3,14 @@ import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { Avatar, Box, Link, Stack, Typography } from "@mui/material";
 
 export const SocialComment = (props) => {
-  const { authorAvatar, authorName, createdAt, content, ...other } = props;
+  const { authorId, authorAvatar, authorName, createdAt, content, ...other } =
+    props;
 
-  const ago = formatDistanceToNowStrict(parseISO(createdAt));
+  const ago = createdAt ? formatDistanceToNowStrict(parseISO(createdAt)) : "";
 
   return (
     <Stack alignItems="flex-start" direction="row" spacing={2} {...other}>
-      <Avatar component="a" href="#" src={authorAvatar} />
+      <Avatar component="a" href={`/social/${authorId}`} src={authorAvatar} />
       <Stack
         spacing={1}
         sx={{

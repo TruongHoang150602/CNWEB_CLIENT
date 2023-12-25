@@ -4,29 +4,24 @@ import Head from "next/head";
 import MessageChatSquareIcon from "@untitled-ui/icons-react/build/esm/MessageChatSquare";
 import DotsHorizontalIcon from "@untitled-ui/icons-react/build/esm/DotsHorizontal";
 import Image01Icon from "@untitled-ui/icons-react/build/esm/Image01";
-import UserPlus02Icon from "@untitled-ui/icons-react/build/esm/UserPlus02";
 import {
   Avatar,
   Box,
   Button,
   Container,
-  Divider,
   IconButton,
   Stack,
   SvgIcon,
-  Tab,
-  Tabs,
   Tooltip,
   Typography,
-  getFabUtilityClass,
 } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
-
 import { getFullUserInfoIdAPI } from "pages/api/user";
 import { getPostByUserIdAPI } from "pages/api/social";
 import { useAuth } from "hook/useAuth";
 import DashboardLayout from "layouts/dashboard/DashboardLayout";
 import { SocialTimeline } from "components/social/social-timeline";
+import { useRouter } from "next/router";
 
 const useProfile = (userId) => {
   const [profile, setProfile] = useState(null);
@@ -71,9 +66,10 @@ const usePosts = (userId) => {
 };
 
 export const SocialProfile = () => {
-  const { user } = useAuth();
-  const profile = useProfile(user.id);
-  const posts = usePosts(user.id);
+  const { query } = useRouter();
+  const { userId } = query;
+  const profile = useProfile(userId);
+  const posts = usePosts(userId);
 
   if (!profile) {
     return null;

@@ -11,7 +11,6 @@ import {
 } from "firebase/firestore";
 import { db } from "firebaseConfig/firebase";
 import { getUserByIdAPI } from "./user";
-import chat from "redux/slices/chat";
 
 export const getAllChatsForUserAPI = async (userId) => {
   try {
@@ -61,7 +60,6 @@ export const listenForChatUpdates = (userId, updateCallback) => {
 
 export const sendMessageAPI = async (currentChat, message, callback) => {
   try {
-    console.log(message);
     const chatDocRef = doc(db, "chats", currentChat.id);
 
     await updateDoc(chatDocRef, {
@@ -143,6 +141,5 @@ const syncMessages = async () => {
       createNewChatAPI(chat, () => {});
     }
   });
-
   localStorage.setItem("unsentMessages", JSON.stringify([]));
 };

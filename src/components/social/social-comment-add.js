@@ -14,10 +14,42 @@ import {
 } from "@mui/material";
 import { getInitials } from "utils/get-initials";
 import { useAuth } from "hook/useAuth";
+import { useCallback, useState } from "react";
 
 export const SocialCommentAdd = (props) => {
+  const { addComment, social_id } = props;
   const smUp = useMediaQuery((theme) => theme.breakpoints.up("sm"));
   const { user } = useAuth();
+
+  const [body, setBody] = useState("");
+  const handleChange = useCallback((event) => {
+    setBody(event.target.value);
+  }, []);
+
+  const handleSend = useCallback(() => {
+    if (!body) {
+      return;
+    }
+
+    const newComment = {
+      author: user,
+      content: body,
+      createdAt: new Date().toISOString(),
+      attachment: null,
+    };
+    addComment(newComment, social_id);
+    console.log(body);
+    setBody("");
+  }, [body]);
+
+  const handleKeyUp = useCallback(
+    (event) => {
+      if (event.code === "Enter") {
+        handleSend();
+      }
+    },
+    [handleSend]
+  );
 
   return (
     <div {...props}>
@@ -38,6 +70,9 @@ export const SocialCommentAdd = (props) => {
             placeholder="Type your reply"
             rows={3}
             variant="outlined"
+            onChange={handleChange}
+            onKeyUp={handleKeyUp}
+            value={body}
           />
           <Stack
             alignItems="center"
