@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   Container,
   CircularProgress,
@@ -10,8 +9,6 @@ import {
   Tab,
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import GlobalStyles from "@mui/material/GlobalStyles";
 import { useSelector, useDispatch } from "react-redux";
 import {
   changeTab,
@@ -27,7 +24,6 @@ import {
   startGame,
 } from "redux/slices/question";
 import ConfirmSubmitModal from "components/question/confirmSubmitModal";
-import DrawerRanking from "components/question/drawerRanking";
 import { closeDrawer, openDrawer } from "redux/slices/user";
 import Quizz from "components/question/quizz";
 import QuestionsBoard from "components/question/questionsBoard";
@@ -37,8 +33,6 @@ import { useRouter } from "next/router";
 import DashboardLayout from "layouts/dashboard/DashboardLayout";
 import { getUserResult } from "thunk/question";
 import { useAuth } from "hook/useAuth";
-
-const defaultTheme = createTheme();
 
 const Page = (props) => {
   const dispatch = useDispatch();
@@ -54,9 +48,6 @@ const Page = (props) => {
   const error = useSelector(selectError);
   const score = useSelector(selectScore);
   const type = useSelector(selectType);
-
-  // const userList = useSelector(selectUserList);
-  // const isOpenDrawer = useSelector(selectIsOpenDrawer);
 
   useEffect(() => {
     dispatch(getUserResult({ userId: user.id, testId, type }));
@@ -104,76 +95,64 @@ const Page = (props) => {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <GlobalStyles
-        styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
-      />
-      <CssBaseline />
-
-      <Container className="main" maxWidth="xl">
-        <Tabs
-          value={type}
-          onChange={onChangeTab}
-          sx={{ background: "#F8F8FA", padding: "10px", borderRadius: "15px" }}
-        >
-          <Tab value="practice" label="Practice" />
-          <Tab value="test" label="Test" />
-        </Tabs>
-        <Grid container spacing={2} mt={4}>
-          <Grid item xs={6} md={3}>
-            <QuestionsBoard
-              userAnswer={userAnswer}
-              currentQuestion={currentQuestion}
-              isSubmitted={isSubmitted}
-              type={type}
-            />
-          </Grid>
-
-          <Grid item xs={6} md={9}>
-            <Stack spacing={2}>
-              {(isSubmitted && currentQuestion == null && (
-                <Result userAnswer={userAnswer} />
-              )) ||
-                (!isSubmitted && currentQuestion == null && (
-                  <Box
-                    sx={{
-                      background: "#FFFFFF",
-                      height: "485px",
-                      padding: "30px",
-                      borderRadius: "15px",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Button variant="contained" onClick={onclickStartBtn}>
-                      Start
-                    </Button>
-                  </Box>
-                )) ||
-                (currentQuestion != null && (
-                  <Quizz
-                    currentQuestion={currentQuestion}
-                    userAnswer={userAnswer}
-                    isSubmitted={isSubmitted}
-                    onClickNextBtn={onClickNextBtn}
-                    onClickPreBtn={onClickPreBtn}
-                    type={type}
-                  />
-                ))}
-              {isSubmitted && <Review userAnswer={userAnswer} />}
-            </Stack>
-          </Grid>
+    <Container className="main" maxWidth="xl">
+      <Tabs
+        value={type}
+        onChange={onChangeTab}
+        sx={{ background: "#F8F8FA", padding: "10px", borderRadius: "15px" }}
+      >
+        <Tab value="practice" label="Practice" />
+        <Tab value="test" label="Test" />
+      </Tabs>
+      <Grid container spacing={2} mt={4}>
+        <Grid item xs={6} md={3}>
+          <QuestionsBoard
+            userAnswer={userAnswer}
+            currentQuestion={currentQuestion}
+            isSubmitted={isSubmitted}
+            type={type}
+          />
         </Grid>
-      </Container>
+
+        <Grid item xs={6} md={9}>
+          <Stack spacing={2}>
+            {(isSubmitted && currentQuestion == null && (
+              <Result userAnswer={userAnswer} />
+            )) ||
+              (!isSubmitted && currentQuestion == null && (
+                <Box
+                  sx={{
+                    background: "#FFFFFF",
+                    height: "485px",
+                    padding: "30px",
+                    borderRadius: "15px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Button variant="contained" onClick={onclickStartBtn}>
+                    Start
+                  </Button>
+                </Box>
+              )) ||
+              (currentQuestion != null && (
+                <Quizz
+                  currentQuestion={currentQuestion}
+                  userAnswer={userAnswer}
+                  isSubmitted={isSubmitted}
+                  onClickNextBtn={onClickNextBtn}
+                  onClickPreBtn={onClickPreBtn}
+                  type={type}
+                />
+              ))}
+            {isSubmitted && <Review userAnswer={userAnswer} />}
+          </Stack>
+        </Grid>
+      </Grid>
       <ConfirmSubmitModal open={open} score={score} />
-      {/* <DrawerRanking
-        open={isOpenDrawer}
-        userList={userList}
-        handleClose={handleCloseDrawer}
-      /> */}
-    </ThemeProvider>
+    </Container>
   );
 };
 

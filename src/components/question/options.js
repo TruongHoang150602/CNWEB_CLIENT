@@ -2,11 +2,8 @@ import React, { useState } from "react";
 import { Stack, Button, Grid, Typography, Divider, Box } from "@mui/material";
 import { useDispatch } from "react-redux";
 import SVGIcon from "../SVGIcon";
-import {
-  chooseMutilOption,
-  chooseOption,
-  submitQuestion,
-} from "redux/slices/question";
+import { chooseOption, submitQuestion } from "redux/slices/question";
+import styles from "styles/Education.module.css";
 
 export default function Options(props) {
   const { options, answer, explanation, showAnswer, question_type, type } =
@@ -30,13 +27,19 @@ export default function Options(props) {
     <Stack spacing={2} sx={{ padding: 3 }}>
       {options.map((option, index) => (
         <Box key={index}>
-          <Grid container alignItems="center" className="answerOption">
+          <Grid container alignItems="center" className={styles.answerOption}>
             <Grid item>
               <Button
-                className={`answerOptionBtn ${
-                  (!showAnswer && option.isSelected && "choosenOptionBtn") ||
-                  (showAnswer && option.is_correct && "correctOptionBtn") ||
-                  (option.isSelected && !option.is_correct && "wrongOptionBtn")
+                className={`${styles.answerOptionBtn} ${
+                  (!showAnswer &&
+                    option.isSelected &&
+                    styles.choosenOptionBtn) ||
+                  (showAnswer &&
+                    option.is_correct &&
+                    styles.correctOptionBtn) ||
+                  (option.isSelected &&
+                    !option.is_correct &&
+                    styles.wrongOptionBtn)
                 }`}
                 value={option._id}
                 onClick={() => {
@@ -76,8 +79,8 @@ export default function Options(props) {
             </Grid>
           </Grid>
           <Box
-            className={`explanation ${
-              showAnswer && option.is_correct && "show-explanation"
+            className={`${styles.explanation} ${
+              showAnswer && option.is_correct && styles.showExplanation
             }`}
           >
             <Button
@@ -95,7 +98,9 @@ export default function Options(props) {
             </Button>
             <Divider />
             <Typography
-              className={`explanation ${show && "show-explanation"}`}
+              className={`${styles.explanation} ${
+                show && styles.showExplanation
+              }`}
               sx={{
                 fontSize: "13px",
                 fontWeight: 400,

@@ -2,6 +2,7 @@ import { chooseQuestion, openModal, startGame } from "redux/slices/question";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { useDispatch } from "react-redux";
+import styles from "styles/Education.module.css";
 
 export default function QuestionsBoard(props) {
   const { userAnswer, currentQuestion, isSubmitted, type } = props; // Fix typo in variable name
@@ -62,12 +63,16 @@ export default function QuestionsBoard(props) {
           {userAnswer.map((answer, index) => (
             <Grid item xs={2} key={index}>
               <Button
-                className={`QuestionPalette ${
-                  (currentQuestion == index && "currentQuestion") ||
+                className={`${styles.questionPalette} ${
+                  (currentQuestion === index && styles.currentQuestion) ||
                   (answer.showAnswer &&
-                    ((checkCorrect(answer.options) && "correctOptionBtn") ||
-                      (!checkCorrect(answer.options) && "wrongOptionBtn"))) ||
-                  (type == "test" && answer.length > 0 && "choosenQuestionBtn")
+                    ((checkCorrect(answer.options) &&
+                      styles.correctOptionBtn) ||
+                      (!checkCorrect(answer.options) &&
+                        styles.wrongOptionBtn))) ||
+                  (type === "test" &&
+                    answer.length > 0 &&
+                    styles.choosenQuestionBtn)
                 }`}
                 onClick={() => {
                   onClickQuestion(index);

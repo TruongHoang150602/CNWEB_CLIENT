@@ -13,6 +13,7 @@ import SVGIcon from "../SVGIcon";
 import { useDispatch } from "react-redux";
 import { submitQuestion } from "redux/slices/question";
 import { useState } from "react";
+import styles from "styles/Education.module.css";
 
 export default function EnterAnswer(props) {
   const { options, explanation, answer, showAnswer } = props;
@@ -39,10 +40,10 @@ export default function EnterAnswer(props) {
 
   return (
     <Stack spacing={2} sx={{ padding: 3 }}>
-      <Box className="form-input-answer">
+      <Box className={styles.formInputAnswer}>
         <FormProvider onSubmit={handleSubmit(onSubmit)}>
           <RHFTextField
-            className="AnswerInput"
+            className={styles.answerInput}
             fullWidth
             placeholder="Đáp án trả lời ..."
             name="answer"
@@ -64,11 +65,18 @@ export default function EnterAnswer(props) {
 
       {showAnswer && (
         <Box>
-          <Button className="answerOptionBtn correctOptionBtn" disabled={true}>
+          <Button
+            className={`${styles.answerOptionBtn} ${styles.correctOptionBtn}`}
+            disabled={true}
+          >
             <SVGIcon src="correct.svg" sx={{ width: "12px", height: "12px" }} />
           </Button>
           {options.map((option) => option.option_text + " ")}
-          <Box className={`explanation ${showAnswer && "show-explanation"}`}>
+          <Box
+            className={`${styles.explanation} ${
+              showAnswer && styles.showExplanation
+            }`}
+          >
             <Button
               variant="text"
               sx={{
@@ -84,7 +92,9 @@ export default function EnterAnswer(props) {
             </Button>
             <Divider />
             <Typography
-              className={`explanation ${show && "show-explanation"}`}
+              className={`${styles.explanation} ${
+                showAnswer && styles.showExplanation
+              }`}
               sx={{
                 fontSize: "13px",
                 fontWeight: 400,

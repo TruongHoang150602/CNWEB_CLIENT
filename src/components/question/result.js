@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { createNewUserResult } from "thunk/question";
 import { useAuth } from "hook/useAuth";
 import { useRouter } from "next/router";
+import styles from "styles/Education.module.css";
 
 export default function Result(props) {
   const { userAnswer } = props;
@@ -70,19 +71,19 @@ export default function Result(props) {
         </Box>
 
         <Box mt={4}>
-          <Typography className="result-chip" sx={{ color: "#FFC93F" }}>
+          <Typography className={styles.resultChip} sx={{ color: "#FFC93F" }}>
             <span style={{ fontWeight: "bold", marginRight: "20px" }}>
               {total}
             </span>{" "}
             Total
           </Typography>
-          <Typography className="result-chip" sx={{ color: "#FF5252" }}>
+          <Typography className={styles.resultChip} sx={{ color: "#FF5252" }}>
             <span style={{ fontWeight: "bold", marginRight: "20px" }}>
               {incorrect}
             </span>{" "}
             Incorrect
           </Typography>
-          <Typography className="result-chip" sx={{ color: "#82BC24" }}>
+          <Typography className={styles.resultChip} sx={{ color: "#82BC24" }}>
             <span style={{ fontWeight: "bold", marginRight: "20px" }}>
               {correct}
             </span>{" "}

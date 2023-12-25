@@ -4,6 +4,7 @@ import Options from "./options";
 import SVGIcon from "../SVGIcon";
 import { Box } from "@mui/material";
 import EnterAnswer from "./enter-answer";
+import styles from "styles/Education.module.css";
 
 export default function Quizz(props) {
   const {
@@ -47,7 +48,7 @@ export default function Quizz(props) {
 
       <Box sx={{ position: "absolute", bottom: "30px", left: "60px" }}>
         <Button
-          className="moveQuestionBtn"
+          className={styles.moveQuestionBtn}
           onClick={onClickPreBtn}
           disabled={currentQuestion == 0}
         >
@@ -58,7 +59,7 @@ export default function Quizz(props) {
           Previous
         </Button>
         <Button
-          className="moveQuestionBtn nextQuestionBtn"
+          className={`${styles.moveQuestionBtn} ${styles.nextQuestionBtn}`}
           onClick={onClickNextBtn}
           disabled={currentQuestion == userAnswer.length - 1}
         >
