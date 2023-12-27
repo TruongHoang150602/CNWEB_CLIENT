@@ -25,7 +25,6 @@ function formatDateString(inputDateString) {
 
 export const AccountGeneralSettings = (props) => {
   const { user } = props;
-  console.log(user);
 
   return (
     <Stack spacing={4} {...props}>

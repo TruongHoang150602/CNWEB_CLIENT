@@ -329,6 +329,8 @@ function renderContent(notification) {
         <Image
           alt={notification.title}
           src="/assets/icons/ic_notification_chat.svg"
+          height={36}
+          width={36}
         />
       ),
       title,
@@ -340,6 +342,8 @@ function renderContent(notification) {
         <Image
           alt={notification.title}
           src="/assets/icons/ic_notification_mail.svg"
+          height={36}
+          width={36}
         />
       ),
       title,
