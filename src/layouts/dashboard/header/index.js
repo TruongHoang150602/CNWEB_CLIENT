@@ -10,7 +10,6 @@ import Iconify from "components/iconfy";
 import Searchbar from "./Searchbar";
 import LanguagePopover from "./LanguagePopover";
 import AccountPopover from "./AccountPopover";
-import { useAuth } from "hook/useAuth";
 import NotificationsPopover from "./NotificationsPopover";
 // ----------------------------------------------------------------------
 
@@ -43,7 +42,6 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
-  const user = useAuth();
   return (
     <StyledRoot>
       <StyledToolbar>
@@ -72,7 +70,7 @@ export default function Header({ onOpenNav }) {
           <LanguagePopover />
 
           <NotificationsPopover />
-          <AccountPopover account={user} />
+          <AccountPopover />
         </Stack>
       </StyledToolbar>
     </StyledRoot>

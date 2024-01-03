@@ -52,6 +52,9 @@ export const Layout = (props) => {
               >
                 <Logo />
               </Box>
+            </Stack>
+
+            <Stack>
               <Box
                 sx={{
                   color: "text.primary",

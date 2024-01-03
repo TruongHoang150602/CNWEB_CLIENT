@@ -2,7 +2,7 @@
 import Axios from "axios";
 
 export const ENDPOINT =
-  process.env.REACT_APP_BASE_URL || "https://quizzifyme.onrender.com";
+  process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 export const sendRequest = (method, data) => {
   return new Promise((resolve, reject) => {

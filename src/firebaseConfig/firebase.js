@@ -1,11 +1,5 @@
 // Import the functions you need from the SDKs you need
-import {
-  initializeApp,
-  getApps,
-  enableFirestorePersistence,
-  clearFirestorePersistence,
-  deleteApp,
-} from "firebase/app";
+import { initializeApp, getApps, deleteApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
@@ -29,8 +23,8 @@ const firebaseConfig = {
 // Xuất các dịch vụ Firebase
 export const app =
   getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-export const db = getFirestore(app);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
 export const storage = getStorage(app);
 
 // Hàm chặn kết nối đến Firestore
